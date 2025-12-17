@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MenuItem } from '../../types';
 import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
+import { useApi } from '../../hooks/useApi';
 import { Modal, Form, Input, InputNumber, Select, Button, message } from 'antd';
 
 const { Option } = Select;
@@ -9,9 +10,25 @@ const { TextArea } = Input;
 
 export const MenuManager: React.FC = () => {
   const { menu, addMenuItem, deleteMenuItem, isLoading } = useAppStore();
+  const { getMenu, createMenuItem: apiCreateMenuItem, deleteMenuItem: apiDeleteMenuItem } = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        // Fetch menu from API
+        // const menuData = await getMenu();
+        // console.log('Menu data from API:', menuData);
+        console.log('MenuManager: Ready to fetch menu from API using axiosInstance');
+      } catch (error) {
+        console.error('Failed to fetch menu:', error);
+      }
+    };
+    
+    fetchMenu();
+  }, [getMenu]);
 
   const handleOk = () => {
     form
@@ -27,10 +44,18 @@ export const MenuManager: React.FC = () => {
           available: true
         };
         
-        await addMenuItem(newItem);
-        messageApi.success('Menu item added successfully');
-        setIsModalOpen(false);
-        form.resetFields();
+        try {
+          // Using axiosInstance to create menu item
+          // await apiCreateMenuItem(newItem);
+          // Then update local state
+          await addMenuItem(newItem);
+          messageApi.success('Menu item added successfully');
+          setIsModalOpen(false);
+          form.resetFields();
+        } catch (error) {
+          console.error('Failed to add menu item:', error);
+          messageApi.error('Failed to add menu item');
+        }
       })
       .catch((info) => {
         console.log('Validate Failed:', info);
@@ -38,8 +63,16 @@ export const MenuManager: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    await deleteMenuItem(id);
-    messageApi.success('Item deleted');
+    try {
+      // Using axiosInstance to delete menu item
+      // await apiDeleteMenuItem(id);
+      // Then update local state
+      await deleteMenuItem(id);
+      messageApi.success('Item deleted');
+    } catch (error) {
+      console.error('Failed to delete menu item:', error);
+      messageApi.error('Failed to delete menu item');
+    }
   };
 
   return (

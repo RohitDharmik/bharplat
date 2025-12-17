@@ -15,7 +15,7 @@ export const PaymentHistoryView: React.FC<PaymentHistoryViewProps> = ({ orders, 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Filter for PAID orders
-  const paidOrders = orders.filter(o => o.status === OrderStatus.PAID);
+  const paidOrders = orders.filter(item => item.status === OrderStatus.PAID);
 
   // Filter by search
   const filteredOrders = paidOrders.filter(order => {

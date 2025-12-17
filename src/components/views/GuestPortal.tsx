@@ -220,7 +220,7 @@ export const GuestBill: React.FC = () => {
     const { orders, guestTableId, updateOrderStatus, tables } = useAppStore();
     const [messageApi, contextHolder] = message.useMessage();
 
-    const activeOrders = orders.filter(o => o.tableId === guestTableId && o.status !== OrderStatus.PAID);
+    const activeOrders = orders.filter(item => item.tableId === guestTableId && item.status !== OrderStatus.PAID);
     const table = tables.find(t => t.id === guestTableId);
 
     // Calculate totals
@@ -230,7 +230,7 @@ export const GuestBill: React.FC = () => {
         // Simulate payment process
         messageApi.loading('Processing payment...', 1.5)
             .then(() => {
-                activeOrders.forEach(o => updateOrderStatus(o.id, OrderStatus.PAID));
+                activeOrders.forEach(item => updateOrderStatus(item.id, OrderStatus.PAID));
                 Modal.success({
                     title: 'Payment Successful',
                     content: 'Thank you for dining with us! We hope to see you again soon.',

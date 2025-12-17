@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MOCK_MENU, INITIAL_TABLES } from '../../constants';
 import { OrderItem, MenuItem } from '../../types';
 import { ShoppingBag, Minus, Plus, Trash2, ArrowRight, CheckCircle, AlertCircle, Search, UtensilsCrossed, X, FileText } from 'lucide-react';
+import { useApi } from '../../hooks/useApi';
 import { Modal, Button, Input, Divider } from 'antd';
 
 interface NewOrderViewProps {
@@ -10,12 +11,28 @@ interface NewOrderViewProps {
 }
 
 export const NewOrderView: React.FC<NewOrderViewProps> = ({ onPlaceOrder, initialTableId }) => {
+  const { getMenu, createOrder: apiCreateOrder } = useApi();
   const [selectedTable, setSelectedTable] = useState<string>(initialTableId || '');
   const [cart, setCart] = useState<OrderItem[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [orderLevelNote, setOrderLevelNote] = useState('');
+  
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        // Fetch menu from API
+        // const menuData = await getMenu();
+        // console.log('Menu data from API:', menuData);
+        console.log('NewOrderView: Ready to fetch menu from API using axiosInstance');
+      } catch (error) {
+        console.error('Failed to fetch menu:', error);
+      }
+    };
+    
+    fetchMenu();
+  }, [getMenu]);
 
   // Update selected table if initialTableId changes
   useEffect(() => {
@@ -74,20 +91,36 @@ export const NewOrderView: React.FC<NewOrderViewProps> = ({ onPlaceOrder, initia
     }
   };
 
-  const handleConfirmOrder = () => {
+  const handleConfirmOrder = async () => {
     if (selectedTable && cart.length > 0) {
       // Inject order level note into the first item or handle separately in backend (mocking here)
-      // For simplicity in this mock, we assume the backend handles order-level notes, 
+      // For simplicity in this mock, we assume the backend handles order-level notes,
       // but passing it as a "Special Instruction" item or logging it is common.
       console.log("Order Note:", orderLevelNote);
       
-      onPlaceOrder(selectedTable, cart);
-      setCart([]);
-      setOrderLevelNote('');
-      if (!initialTableId) {
-        setSelectedTable('');
+      try {
+        // Using axiosInstance to create order
+        // const orderData = {
+        //   tableId: selectedTable,
+        //   items: cart,
+        //   totalAmount: total * 1.05,
+        //   notes: orderLevelNote
+        // };
+        // await apiCreateOrder(orderData);
+        
+        // Then update local state
+        onPlaceOrder(selectedTable, cart);
+        setCart([]);
+        setOrderLevelNote('');
+        if (!initialTableId) {
+          setSelectedTable('');
+        }
+        setIsConfirmOpen(false);
+      } catch (error) {
+        console.error('Failed to place order:', error);
+        // Show error to user
+        alert('Failed to place order. Please try again.');
       }
-      setIsConfirmOpen(false);
     }
   };
 

@@ -29,10 +29,10 @@ export const WaiterView: React.FC<WaiterViewProps> = ({ tables, orders, onTableC
   const myTables = tables.slice(0, 4); 
   
   // Get orders that belong to my tables and are not yet fully paid
-  const myActiveOrders = orders.filter(o => myTables.some(t => t.id === o.tableId) && o.status !== OrderStatus.PAID);
+  const myActiveOrders = orders.filter(item => myTables.some(t => t.id === item.tableId) && item.status !== OrderStatus.PAID);
 
   // Get history orders (Paid orders for my tables)
-  const myHistoryOrders = orders.filter(o => myTables.some(t => t.id === o.tableId) && o.status === OrderStatus.PAID);
+  const myHistoryOrders = orders.filter(item => myTables.some(t => t.id === item.tableId) && item.status === OrderStatus.PAID);
   
   // Sort by date descending
   const sortedHistory = [...myHistoryOrders].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
@@ -179,7 +179,7 @@ export const WaiterView: React.FC<WaiterViewProps> = ({ tables, orders, onTableC
               <span className="text-sm uppercase mt-1 opacity-75">{table.status}</span>
               {table.status === TableStatus.OCCUPIED && (
                 <span className="mt-2 text-xs bg-black/10 dark:bg-black/40 px-2 py-1 rounded font-medium">
-                  {orders.find(o => o.tableId === table.id && o.status !== OrderStatus.PAID) ? 'Active Order' : 'No Order'}
+                  {orders.find(item => item.tableId === table.id && item.status !== OrderStatus.PAID) ? 'Active Order' : 'No Order'}
                 </span>
               )}
             </button>

@@ -1,17 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, UserRole, AttendanceRecord } from '../../types';
 import { MOCK_ATTENDANCE } from '../../constants';
 import { Search, Plus, MoreVertical, Shield, Mail, Clock, CalendarCheck } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
+import { useApi } from '../../hooks/useApi';
 import { Modal, Form, Input, Select, message, Tabs, Table, Tag } from 'antd';
 
 const { Option } = Select;
 
 export const UsersView: React.FC = () => {
   const { users, addUser, isLoading } = useAppStore();
+  const { getUsers, createUser: apiCreateUser } = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        // Fetch users from API
+        // const usersData = await getUsers();
+        // console.log('Users data from API:', usersData);
+        console.log('UsersView: Ready to fetch users from API using axiosInstance');
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      }
+    };
+    
+    fetchUsers();
+  }, [getUsers]);
 
   const handleOk = () => {
     form
@@ -26,10 +43,18 @@ export const UsersView: React.FC = () => {
           lastActive: new Date()
         };
         
-        await addUser(newUser);
-        messageApi.success('User added successfully');
-        setIsModalOpen(false);
-        form.resetFields();
+        try {
+          // Using axiosInstance to create user
+          // await apiCreateUser(newUser);
+          // Then update local state
+          await addUser(newUser);
+          messageApi.success('User added successfully');
+          setIsModalOpen(false);
+          form.resetFields();
+        } catch (error) {
+          console.error('Failed to add user:', error);
+          messageApi.error('Failed to add user');
+        }
       })
       .catch((info) => {
         console.log('Validate Failed:', info);

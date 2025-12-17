@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Order, OrderStatus, Table } from '../../types';
 import { Clock, CheckCircle, ChefHat, Bell, Package, FileText, Flame, Printer, Check, User as UserIcon } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
+import { useApi } from '../../hooks/useApi';
 import { notification } from 'antd';
 
 interface KitchenDisplayProps {
@@ -11,7 +12,23 @@ interface KitchenDisplayProps {
 
 export const KitchenDisplay: React.FC<KitchenDisplayProps> = ({ orders, onUpdateStatus }) => {
   const { tables } = useAppStore();
+  const { getOrders, updateOrderStatus: apiUpdateOrderStatus } = useApi();
   const [now, setNow] = useState(new Date());
+  
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        // Fetch orders from API
+        // const ordersData = await getOrders();
+        // console.log('Orders data from API:', ordersData);
+        console.log('KitchenDisplay: Ready to fetch orders from API using axiosInstance');
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
+      }
+    };
+    
+    fetchOrders();
+  }, [getOrders]);
   
   // Ref to track previous orders for new order detection
   const prevOrdersRef = useRef<Order[]>(orders);
@@ -27,15 +44,15 @@ export const KitchenDisplay: React.FC<KitchenDisplayProps> = ({ orders, onUpdate
     const prevOrders = prevOrdersRef.current;
     if (orders.length > prevOrders.length) {
       // Find newly added orders
-      const newOrders = orders.filter(o => !prevOrders.find(po => po.id === o.id));
+      const newOrders = orders.filter(item => !prevOrders.find(po => po.id === item.id));
       
-      newOrders.forEach(o => {
-         const table = tables.find(t => t.id === o.tableId);
-         const tableName = table?.name || o.tableId;
+      newOrders.forEach(item => {
+         const table = tables.find(t => t.id === item.tableId);
+         const tableName = table?.name || item.tableId;
          
          notification.open({
              message: 'New Order Received',
-             description: `Table: ${tableName} • ${o.items.length} items`,
+             description: `Table: ${tableName} • ${item.items.length} items`,
              icon: <Bell className="text-red-500" />,
              placement: 'topRight',
              duration: 5,
@@ -59,9 +76,9 @@ export const KitchenDisplay: React.FC<KitchenDisplayProps> = ({ orders, onUpdate
     return diffMins > 15;
   };
 
-  const pendingOrders = orders.filter(o => o.status === OrderStatus.PENDING);
-  const prepOrders = orders.filter(o => o.status === OrderStatus.PREPARING);
-  const readyOrders = orders.filter(o => o.status === OrderStatus.READY);
+  const pendingOrders = orders.filter(item => item.status === OrderStatus.PENDING);
+  const prepOrders = orders.filter(item => item.status === OrderStatus.PREPARING);
+  const readyOrders = orders.filter(item => item.status === OrderStatus.READY);
 
   const getTableDetails = (tableId: string) => {
     return tables.find(t => t.id === tableId);

@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Reservation } from '../../types';
 import { Calendar, Clock, Phone, Users, CheckCircle, XCircle } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
+import { useApi } from '../../hooks/useApi';
 import { Modal, Form, Input, InputNumber, DatePicker, TimePicker, message } from 'antd';
 import dayjs from 'dayjs';
 
 export const ReservationsView: React.FC = () => {
   const { reservations, addReservation, isLoading } = useAppStore();
+  const { getReservations, createReservation: apiCreateReservation } = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  
+  useEffect(() => {
+    const fetchReservations = async () => {
+      try {
+        // Fetch reservations from API
+        // const reservationsData = await getReservations();
+        // console.log('Reservations data from API:', reservationsData);
+        console.log('ReservationsView: Ready to fetch reservations from API using axiosInstance');
+      } catch (error) {
+        console.error('Failed to fetch reservations:', error);
+      }
+    };
+    
+    fetchReservations();
+  }, [getReservations]);
 
   const handleOk = () => {
     form
@@ -23,7 +40,7 @@ export const ReservationsView: React.FC = () => {
           .hour(timePart.hour())
           .minute(timePart.minute())
           .toDate();
-
+        
         const newRes: Reservation = {
           id: `r${Date.now()}`,
           customerName: values.customerName,
@@ -32,11 +49,19 @@ export const ReservationsView: React.FC = () => {
           date: fullDate,
           status: 'Pending'
         };
-
-        await addReservation(newRes);
-        messageApi.success('Reservation created successfully');
-        setIsModalOpen(false);
-        form.resetFields();
+        
+        try {
+          // Using axiosInstance to create reservation
+          // await apiCreateReservation(newRes);
+          // Then update local state
+          await addReservation(newRes);
+          messageApi.success('Reservation created successfully');
+          setIsModalOpen(false);
+          form.resetFields();
+        } catch (error) {
+          console.error('Failed to create reservation:', error);
+          messageApi.error('Failed to create reservation');
+        }
       })
       .catch((info) => {
         console.log('Validate Failed:', info);

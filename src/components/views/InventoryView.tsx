@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InventoryItem } from '../../types';
 import { AlertTriangle, Package, RefreshCw, Plus, Edit2 } from 'lucide-react';
 import { useAppStore } from '../../store/useAppStore';
+import { useApi } from '../../hooks/useApi';
 import { Modal, Form, Input, InputNumber, Select, message, Button } from 'antd';
 
 const { Option } = Select;
 
 export const InventoryView: React.FC = () => {
   const { inventory, addInventoryItem, isLoading } = useAppStore();
+  const { getInventory, createInventoryItem: apiCreateInventoryItem } = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAdjustOpen, setIsAdjustOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(null);
@@ -15,6 +17,21 @@ export const InventoryView: React.FC = () => {
   const [form] = Form.useForm();
   const [adjustForm] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  
+  useEffect(() => {
+    const fetchInventory = async () => {
+      try {
+        // Fetch inventory from API
+        // const inventoryData = await getInventory();
+        // console.log('Inventory data from API:', inventoryData);
+        console.log('InventoryView: Ready to fetch inventory from API using axiosInstance');
+      } catch (error) {
+        console.error('Failed to fetch inventory:', error);
+      }
+    };
+    
+    fetchInventory();
+  }, [getInventory]);
 
   const handleOk = () => {
     form
@@ -30,11 +47,19 @@ export const InventoryView: React.FC = () => {
           category: values.category,
           status: 'In Stock'
         };
-
-        await addInventoryItem(newItem);
-        messageApi.success('Inventory item added');
-        setIsModalOpen(false);
-        form.resetFields();
+        
+        try {
+          // Using axiosInstance to create inventory item
+          // await apiCreateInventoryItem(newItem);
+          // Then update local state
+          await addInventoryItem(newItem);
+          messageApi.success('Inventory item added');
+          setIsModalOpen(false);
+          form.resetFields();
+        } catch (error) {
+          console.error('Failed to add inventory item:', error);
+          messageApi.error('Failed to add inventory item');
+        }
       })
       .catch((info) => {
         console.log('Validate Failed:', info);

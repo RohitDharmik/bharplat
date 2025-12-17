@@ -14,15 +14,15 @@ export const PaymentsView: React.FC<PaymentsViewProps> = ({ orders, tables, onPr
   const { menu } = useAppStore();
 
   // Get unpaid orders that are served or ready
-  const unpaidOrders = orders.filter(o => 
-    o.status !== OrderStatus.PAID && o.status !== OrderStatus.PENDING
+  const unpaidOrders = orders.filter(item => 
+    item.status !== OrderStatus.PAID && item.status !== OrderStatus.PENDING
   );
 
   // Constants for calculation
   const TAX_RATE = 0.05; // 5% GST for restaurants
   const SERVICE_CHARGE_RATE = 0.05;
 
-  const selectedOrder = selectedOrderId ? unpaidOrders.find(o => o.id === selectedOrderId) : null;
+  const selectedOrder = selectedOrderId ? unpaidOrders.find(item => item.id === selectedOrderId) : null;
   const selectedTable = selectedOrder ? tables.find(t => t.id === selectedOrder.tableId) : null;
 
   const getItemImage = (menuItemId: string) => {

@@ -18,11 +18,11 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
   const [messageApi, contextHolder] = message.useMessage();
 
   // Filter orders that are NOT paid
-  const activeOrders = orders.filter(o => o.status !== OrderStatus.PAID);
+  const activeOrders = orders.filter(item => item.status !== OrderStatus.PAID);
   
   const filteredOrders = filterStatus === 'All' 
     ? activeOrders 
-    : activeOrders.filter(o => o.status === filterStatus);
+    : activeOrders.filter(item => item.status === filterStatus);
 
   const handleOpenNotes = (order: Order) => {
     setSelectedOrder(order);

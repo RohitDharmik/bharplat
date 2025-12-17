@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserRole, OrderStatus } from '../../types';
 import { useAppStore } from '../../store/useAppStore';
+import { useApi } from '../../hooks/useApi';
 import { StatCard, RevenueChart, OccupancyChart } from '../ui/DashboardWidgets';
 import { ShoppingBag, Users, Activity, IndianRupee } from 'lucide-react';
 import { SuperAdminDashboard } from './SuperAdminDashboard';
@@ -11,6 +12,27 @@ interface DashboardViewProps {
 
 export const DashboardView: React.FC<DashboardViewProps> = ({ userRole }) => {
   const { orders } = useAppStore();
+  const { getReports } = useApi();
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      setLoading(true);
+      try {
+        // Fetch dashboard data from API
+        // const data = await getReports({ dashboard: true });
+        // setDashboardData(data);
+        console.log('DashboardView: Ready to fetch data from API using axiosInstance');
+      } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
+    fetchDashboardData();
+  }, [getReports]);
 
   if (userRole === UserRole.SUPER_ADMIN) {
       return (
@@ -28,7 +50,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ userRole }) => {
       {/* Responsive Grid: 1 col mobile, 2 col tablet, 4 col desktop */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
         <StatCard title="Total Revenue" value="₹45,250" trend="+12%" icon={IndianRupee} />
-        <StatCard title="Active Orders" value={`${orders.filter(o => o.status !== OrderStatus.PAID).length}`} trend="+5%" icon={ShoppingBag} />
+        <StatCard title="Active Orders" value={`${orders.filter(item => item.status !== OrderStatus.PAID).length}`} trend="+5%" icon={ShoppingBag} />
         <StatCard title="Occupancy" value="78%" trend="+2%" icon={Users} />
         <StatCard title="Avg. Wait Time" value="18m" trend="-4%" icon={Activity} />
       </div>

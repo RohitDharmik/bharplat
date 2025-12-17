@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.90.12",
     "antd": "^5.15.0",
+    "axios": "^1.13.2",
     "dayjs": "^1.11.10",
     "highcharts": "^11.3.0",
     "highcharts-react-official": "^3.2.1",

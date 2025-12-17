@@ -20,7 +20,7 @@ export const AdminTableModal: React.FC<AdminTableModalProps> = ({
   const { orders } = useAppStore();
 
   const getTableHistory = (tableId: string) => {
-      return orders.filter(o => o.tableId === tableId && o.status === OrderStatus.PAID)
+      return orders.filter(item => item.tableId === tableId && item.status === OrderStatus.PAID)
                    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   };
 
