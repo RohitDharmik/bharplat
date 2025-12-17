@@ -12,7 +12,7 @@ import {
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Broadcast Channel for Real-time Sync
-const syncChannel = new BroadcastChannel('luxe_app_sync');
+const syncChannel = new BroadcastChannel('bharplate_app_sync');
 
 interface AppState {
   menu: MenuItem[];

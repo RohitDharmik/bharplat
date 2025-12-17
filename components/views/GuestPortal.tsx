@@ -28,7 +28,7 @@ export const GuestTableSelection: React.FC = () => {
             </div>
             
             <div className="space-y-2 max-w-md">
-                <h2 className="text-3xl font-bold text-neutral-900 dark:text-white">Welcome to Luxe</h2>
+                <h2 className="text-3xl font-bold text-neutral-900 dark:text-white">Welcome to bharplate</h2>
                 <p className="text-neutral-500 dark:text-neutral-400">Scan the QR code on your table or select your table number below to view the menu.</p>
             </div>
 
