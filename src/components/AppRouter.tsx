@@ -101,7 +101,7 @@ export const AppRouter: React.FC<AppRouterProps> = ({
 
     case 'Users':
     case 'Staff':
-      return <div className="animate-in fade-in duration-500"><UsersView /></div>;
+      return <div className="animate-in fade-in duration-500"><UsersView currentUserRole={userRole} /></div>;
     
     case 'Inventory':
       return <div className="animate-in fade-in duration-500"><InventoryView /></div>;

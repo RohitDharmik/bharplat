@@ -135,25 +135,26 @@ export const MOCK_PURCHASES: Purchase[] = [
 ];
 
 export const MOCK_ATTENDANCE: AttendanceRecord[] = [
-    { id: 'a1', userId: 'u3', date: new Date(), status: 'Present', checkIn: '09:00 AM', checkOut: '06:00 PM' },
-    { id: 'a2', userId: 'u5', date: new Date(), status: 'Present', checkIn: '10:00 AM' }
+  { id: 'a1', userId: 'u3', date: new Date(), status: 'Present', checkIn: '09:00 AM', checkOut: '06:00 PM' },
+  { id: 'a2', userId: 'u5', date: new Date(), status: 'Present', checkIn: '10:00 AM' }
 ];
 
 export const MOCK_CUSTOMERS: Customer[] = [
-    { id: 'c1', name: 'Vikram Singh', phone: '+91 98765 43210', email: 'vikram@example.com', visits: 5, totalSpent: 4500, lastVisit: new Date() },
-    { id: 'c2', name: 'Anjali Gupta', phone: '+91 88776 65544', email: 'anjali@example.com', visits: 12, totalSpent: 15200, lastVisit: new Date(Date.now() - 86400000 * 5) }
+  { id: 'c1', name: 'Vikram Singh', phone: '+91 98765 43210', email: 'vikram@example.com', visits: 5, totalSpent: 4500, lastVisit: new Date() },
+  { id: 'c2', name: 'Anjali Gupta', phone: '+91 88776 65544', email: 'anjali@example.com', visits: 12, totalSpent: 15200, lastVisit: new Date(Date.now() - 86400000 * 5) }
 ];
 
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
-    { id: 'sp1', name: 'Basic', price: 999, validity: 'Monthly', features: ['Order Management', 'Digital Menu', 'Basic Reports'] },
-    { id: 'sp2', name: 'Premium', price: 2499, validity: 'Monthly', features: ['All Basic Features', 'Inventory', 'Payroll', 'Advanced Reports', 'Priority Support'] },
-    { id: 'sp3', name: 'Enterprise', price: 19999, validity: 'Yearly', features: ['All Premium Features', 'Multi-branch', 'API Access', 'Dedicated Manager'] }
+  { id: 'sp1', name: 'Basic', price: 999, validity: 'Monthly', features: ['Order Management', 'Digital Menu', 'Basic Reports'] },
+  { id: 'sp2', name: 'Premium', price: 2499, validity: 'Monthly', features: ['All Basic Features', 'Inventory', 'Payroll', 'Advanced Reports', 'Priority Support'] },
+  { id: 'sp3', name: 'Enterprise', price: 19999, validity: 'Yearly', features: ['All Premium Features', 'Multi-branch', 'API Access', 'Dedicated Manager'] }
 ];
 
 export const NAV_ITEMS = {
-  [UserRole.SUPER_ADMIN]: ['Dashboard', 'Users', 'Active Orders', 'Order History', 'Reports', 'Subscription', 'Tickets', 'Settings', 'Profile'],
-  [UserRole.ADMIN]: ['Dashboard', 'Reservations', 'Tables', 'Active Orders', 'Order History', 'Menu', 'Inventory', 'Purchase', 'Recipes', 'Customers', 'Reports', 'QR Codes', 'Tickets', 'Settings', 'Profile'],
-  [UserRole.MANAGER]: ['Dashboard', 'Tables', 'Reservations', 'Active Orders', 'Order History', 'Payments', 'Customers', 'Staff', 'Inventory', 'Purchase', 'Reports', 'Feedback', 'Tickets', 'Profile'],
+  [UserRole.SUPER_ADMIN]: ['Dashboard', 'Users', 'Reports',  'Tickets', 'Settings', 'Profile'],
+  [UserRole.ADMIN]: ['Dashboard', 'Reservations', 'Users', 'Tables', 'Active Orders','Subscription', 'Order History', 'Menu', 'Inventory', 'Purchase', 'Recipes', 'Customers', 'Reports', 'QR Codes', 'Tickets', 'Settings', 'Profile'],
+  [UserRole.SUB_ADMIN]: ['Dashboard', 'Reservations', 'My Tables','New Order', 'Users', 'Subscription','Tables', 'Payments', 'Active Orders', 'Order History', 'Menu', 'Inventory', 'Purchase', 'Recipes', 'Customers', 'Reports', 'QR Codes', 'Tickets', 'Settings', 'Profile'],
+  [UserRole.MANAGER]: ['Dashboard', 'My Tables', 'Tables', 'New Order','Reservations','Subscription', 'Users', 'Active Orders', 'Order History', 'Payments', 'Menu', 'Customers', 'Staff', 'Inventory', 'Purchase', 'Reports', 'Feedback', 'Tickets', 'Profile'],
   [UserRole.CHEF]: ['Kitchen Display', 'Menu Creator', 'Recipes', 'Inventory', 'Purchase', 'Profile'],
   [UserRole.COOK]: ['Kitchen Display', 'Inventory', 'Recipes', 'Profile'],
   [UserRole.WAITER]: ['Waiter Dashboard', 'My Tables', 'New Order', 'Reservations', 'Payments', 'Order History', 'Profile'],
