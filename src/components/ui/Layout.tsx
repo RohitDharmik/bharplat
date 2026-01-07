@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  Users, 
-  UtensilsCrossed, 
-  ChefHat, 
-  Coffee, 
-  LogOut, 
+import {
+  LayoutDashboard,
+  Users,
+  UtensilsCrossed,
+  ChefHat,
+  Coffee,
+  LogOut,
   Menu,
   X,
   Bell,
@@ -28,7 +28,10 @@ import {
   QrCode,
   UserCircle,
   Package,
-  MessageSquare
+  MessageSquare,
+  Shield,
+  MapPin,
+  Table
 } from 'lucide-react';
 import { UserRole } from '../../types';
 import { NAV_ITEMS } from '../../constants';
@@ -73,6 +76,14 @@ const getIcon = (item: string) => {
     case 'Profile': return <UserCircle size={20} />;
     case 'Inventory': return <Package size={20} />;
     case 'Feedback': return <MessageSquare size={20} />;
+    case 'Super Admin Dashboard': return <LayoutDashboard size={20} />;
+    case 'Admin Management': return <Users size={20} />;
+    case 'Admin Responsibility Matrix': return <Grid size={20} />;
+    case 'Route & Page Control': return <Settings size={20} />;
+    case 'Platform Permission Registry': return <Shield size={20} />;
+    case 'Audit Log': return <FileBarChart size={20} />;
+    case 'Area Master': return <MapPin size={20} />;
+    case 'Table Master': return <Table size={20} />;
     default: return <Grid size={20} />;
   }
 };

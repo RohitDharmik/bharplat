@@ -1,4 +1,18 @@
-import { MenuItem, Table, TableStatus, UserRole, Order, OrderStatus, InventoryItem, Reservation, User, Feedback, Ticket, Purchase, SubscriptionPlan, AttendanceRecord, Customer } from './types';
+import { MenuItem, Table, TableStatus, UserRole, Order, OrderStatus, OrderType, InventoryItem, Reservation, User, Feedback, Ticket, Purchase, SubscriptionPlan, AttendanceRecord, Customer, OutletSubscription, Area } from './types';
+
+export const MOCK_AREAS: Area[] = [
+  { id: 'a1', name: 'Main Hall', description: 'Primary dining area', isActive: true, createdAt: new Date(), updatedAt: new Date() },
+  { id: 'a2', name: 'Terrace', description: 'Outdoor seating area', isActive: true, createdAt: new Date(), updatedAt: new Date() },
+  { id: 'a3', name: 'VIP', description: 'Premium dining section', isActive: true, createdAt: new Date(), updatedAt: new Date() }
+];
+
+export const INITIAL_TABLES: Table[] = Array.from({ length: 12 }, (_, i) => ({
+  id: `t${i + 1}`,
+  name: `Table ${i + 1}`,
+  capacity: i % 2 === 0 ? 4 : 2,
+  status: i === 2 ? TableStatus.OCCUPIED : i === 5 ? TableStatus.RESERVED : TableStatus.AVAILABLE,
+  areaId: i < 4 ? 'a1' : i < 8 ? 'a2' : 'a3'
+}));
 
 export const MOCK_MENU: MenuItem[] = [
   {
@@ -75,14 +89,6 @@ export const MOCK_MENU: MenuItem[] = [
   }
 ];
 
-export const INITIAL_TABLES: Table[] = Array.from({ length: 12 }, (_, i) => ({
-  id: `t${i + 1}`,
-  name: `Table ${i + 1}`,
-  capacity: i % 2 === 0 ? 4 : 2,
-  status: i === 2 ? TableStatus.OCCUPIED : i === 5 ? TableStatus.RESERVED : TableStatus.AVAILABLE,
-  zone: i < 6 ? 'Main Hall' : 'Terrace'
-}));
-
 export const MOCK_ORDERS: Order[] = [
   {
     id: 'o1',
@@ -92,7 +98,11 @@ export const MOCK_ORDERS: Order[] = [
       { menuItemId: 'm7', name: 'Masala Chai', quantity: 2, price: 40 }
     ],
     status: OrderStatus.PREPARING,
+    orderType: OrderType.DINE_IN,
     totalAmount: 320,
+    subtotal: 320,
+    gstRate: 5,
+    gstAmount: 16,
     createdAt: new Date(Date.now() - 1000 * 60 * 15), // 15 mins ago
     updatedAt: new Date()
   }
@@ -125,8 +135,28 @@ export const MOCK_FEEDBACK: Feedback[] = [
 ];
 
 export const MOCK_TICKETS: Ticket[] = [
-  { id: 'tk1', subject: 'Printer Connection Issue', category: 'Technical', description: 'Kitchen printer disconnects intermittently.', status: 'Pending', createdAt: new Date() },
-  { id: 'tk2', subject: 'GST Calculation Error', category: 'Billing', description: 'Tax showing as 18% instead of 5%.', status: 'Resolved', createdAt: new Date(Date.now() - 86400000) }
+  {
+    id: 'tk1',
+    subject: 'Printer Connection Issue',
+    category: 'Technical',
+    description: 'Kitchen printer disconnects intermittently.',
+    status: 'Pending',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    priority: 'High',
+    assignedTo: 'u1'
+  },
+  {
+    id: 'tk2',
+    subject: 'GST Calculation Error',
+    category: 'Billing',
+    description: 'Tax showing as 18% instead of 5%.',
+    status: 'Resolved',
+    createdAt: new Date(Date.now() - 86400000),
+    updatedAt: new Date(Date.now() - 43200000),
+    priority: 'Medium',
+    assignedTo: 'u1'
+  }
 ];
 
 export const MOCK_PURCHASES: Purchase[] = [
@@ -145,18 +175,41 @@ export const MOCK_CUSTOMERS: Customer[] = [
 ];
 
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
-  { id: 'sp1', name: 'Basic', price: 999, validity: 'Monthly', features: ['Order Management', 'Digital Menu', 'Basic Reports'] },
-  { id: 'sp2', name: 'Premium', price: 2499, validity: 'Monthly', features: ['All Basic Features', 'Inventory', 'Payroll', 'Advanced Reports', 'Priority Support'] },
-  { id: 'sp3', name: 'Enterprise', price: 19999, validity: 'Yearly', features: ['All Premium Features', 'Multi-branch', 'API Access', 'Dedicated Manager'] }
+  { id: 'sp1', name: 'Basic', price: 999, validity: 'Monthly', features: ['Order Management', 'Digital Menu', 'Basic Reports'], maxOutlets: 1, isActive: true },
+  { id: 'sp2', name: 'Premium', price: 2499, validity: 'Monthly', features: ['All Basic Features', 'Inventory', 'Payroll', 'Advanced Reports', 'Priority Support'], maxOutlets: 5, isActive: true },
+  { id: 'sp3', name: 'Enterprise', price: 19999, validity: 'Yearly', features: ['All Premium Features', 'Multi-branch', 'API Access', 'Dedicated Manager'], maxOutlets: 50, isActive: true }
+];
+
+export const MOCK_OUTLET_SUBSCRIPTIONS: OutletSubscription[] = [
+  {
+    id: 'os1',
+    outletId: 'outlet1',
+    planId: 'sp2',
+    startDate: new Date(),
+    endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+    status: 'Active',
+    autoRenew: true,
+    paymentMethod: 'Credit Card'
+  },
+  {
+    id: 'os2',
+    outletId: 'outlet2',
+    planId: 'sp1',
+    startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+    endDate: new Date(Date.now() + 335 * 24 * 60 * 60 * 1000),
+    status: 'Active',
+    autoRenew: true,
+    paymentMethod: 'Bank Transfer'
+  }
 ];
 
 export const NAV_ITEMS = {
-  [UserRole.SUPER_ADMIN]: ['Dashboard', 'Users', 'Reports',  'Tickets', 'Settings', 'Profile'],
-  [UserRole.ADMIN]: ['Dashboard', 'Reservations', 'Users', 'Tables', 'Active Orders','Subscription', 'Order History', 'Menu', 'Inventory', 'Purchase', 'Recipes', 'Customers', 'Reports', 'QR Codes', 'Tickets', 'Settings', 'Profile'],
-  [UserRole.SUB_ADMIN]: ['Dashboard', 'Reservations', 'My Tables','New Order', 'Users', 'Subscription','Tables', 'Payments', 'Active Orders', 'Order History', 'Menu', 'Inventory', 'Purchase', 'Recipes', 'Customers', 'Reports', 'QR Codes', 'Tickets', 'Settings', 'Profile'],
-  [UserRole.MANAGER]: ['Dashboard', 'My Tables', 'Tables', 'New Order','Reservations','Subscription', 'Users', 'Active Orders', 'Order History', 'Payments', 'Menu', 'Customers', 'Staff', 'Inventory', 'Purchase', 'Reports', 'Feedback', 'Tickets', 'Profile'],
+  [UserRole.SUPER_ADMIN]: ['Super Admin Dashboard', 'Admin Management', 'Admin Responsibility Matrix', 'Route & Page Control', 'Platform Permission Registry', 'Audit Log', 'Ticket Management', 'Subscription Management', 'Area Master', 'Table Master'],
+  [UserRole.ADMIN]: ['Dashboard', 'Reservations', 'Users', 'Tables', 'Active Orders','Subscription', 'Order History', 'Menu', 'Inventory', 'Purchase', 'Recipes', 'Customers', 'Reports', 'QR Codes', 'Tickets', 'Settings', 'Profile', 'Area Master', 'Table Master'],
+  [UserRole.SUB_ADMIN]: ['Dashboard', 'Reservations', 'My Tables','Order & Billing', 'Users', 'Subscription','Tables', 'Payments', 'Active Orders', 'Order History', 'Menu', 'Inventory', 'Purchase', 'Recipes', 'Customers', 'Reports', 'QR Codes', 'Tickets', 'Settings', 'Profile'],
+  [UserRole.MANAGER]: ['Dashboard', 'My Tables', 'Tables', 'Order & Billing','Reservations','Subscription', 'Users', 'Active Orders', 'Order History', 'Payments', 'Menu', 'Customers', 'Staff', 'Inventory', 'Purchase', 'Reports', 'Feedback', 'Tickets', 'Profile', 'Area Master', 'Table Master'],
   [UserRole.CHEF]: ['Kitchen Display', 'Menu Creator', 'Recipes', 'Inventory', 'Purchase', 'Profile'],
   [UserRole.COOK]: ['Kitchen Display', 'Inventory', 'Recipes', 'Profile'],
-  [UserRole.WAITER]: ['Waiter Dashboard', 'My Tables', 'New Order', 'Reservations', 'Payments', 'Order History', 'Profile'],
+  [UserRole.WAITER]: ['Waiter Dashboard', 'My Tables', 'Order & Billing', 'Reservations', 'Payments', 'Order History', 'Profile'],
   [UserRole.GUEST]: ['Menu', 'My Bill'],
 };

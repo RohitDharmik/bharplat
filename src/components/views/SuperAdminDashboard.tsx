@@ -1,132 +1,183 @@
 import React from 'react';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import { StatCard } from '../ui/DashboardWidgets';
-import { DollarSign, Users, Map, ShoppingBag } from 'lucide-react';
+import { Users, UserCheck, UserX, Shield, MessageSquare, CreditCard, AlertCircle, CheckCircle } from 'lucide-react';
+import { AdminAccount } from '../../types';
+import { useAppStore } from '../../store/useAppStore';
 
-const regionData = [
-    { name: 'North Zone', y: 450000 },
-    { name: 'South Zone', y: 320000 },
-    { name: 'East Zone', y: 150000 },
-    { name: 'West Zone', y: 580000 },
-];
+interface SuperAdminDashboardProps {
+  admins: AdminAccount[];
+  auditLogs: any[]; // from types
+}
 
-const subscriptionData = [
-    { name: 'Basic', y: 45 },
-    { name: 'Premium', y: 120 },
-    { name: 'Enterprise', y: 15 },
-];
+export const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ admins, auditLogs }) => {
+  const { tickets, outletSubscriptions } = useAppStore();
 
-export const SuperAdminDashboard: React.FC = () => {
-    const regionChartOptions: Highcharts.Options = {
-        chart: {
-            backgroundColor: 'transparent',
-            type: 'bar',
-            style: { fontFamily: 'Inter, sans-serif' }
-        },
-        title: { text: undefined },
-        xAxis: {
-            categories: regionData.map(d => d.name),
-            labels: { style: { color: '#ffffff' } },
-            lineColor: '#333'
-        },
-        yAxis: {
-            title: { text: 'Revenue (₹)', style: { color: '#888' } },
-            gridLineColor: '#333',
-            labels: { style: { color: '#888' } }
-        },
-        series: [{
-            type: 'bar',
-            name: 'Revenue',
-            data: regionData,
-            color: '#D4AF37'
-        }],
-        legend: { enabled: false },
-        credits: { enabled: false }
-    };
+  const totalAdmins = admins.length;
+  const activeAdmins = admins.filter(a => a.status === 'Active').length;
+  const inactiveAdmins = totalAdmins - activeAdmins;
 
-    const subChartOptions: Highcharts.Options = {
-        chart: {
-            backgroundColor: 'transparent',
-            type: 'pie',
-            style: { fontFamily: 'Inter, sans-serif' }
-        },
-        title: { text: undefined },
-        plotOptions: {
-            pie: {
-                innerSize: '50%',
-                dataLabels: { enabled: false },
-                showInLegend: true,
-                borderWidth: 0
-            }
-        },
-        series: [{
-            type: 'pie',
-            name: 'Subscriptions',
-            data: subscriptionData
-        }],
-        legend: { itemStyle: { color: '#A3A3A3' } },
-        credits: { enabled: false },
-        colors: ['#665D1E', '#D4AF37', '#F4E08F']
-    };
+  // Ticket stats
+  const totalTickets = tickets.length;
+  const openTickets = tickets.filter(t => t.status === 'Pending' || t.status === 'In Process').length;
+  const resolvedTickets = tickets.filter(t => t.status === 'Resolved').length;
 
-    return (
-        <div className="space-y-6">
-            <h3 className="text-xl font-bold text-neutral-400 uppercase tracking-wide">Network Overview</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <StatCard title="Total Network Revenue" value="₹1.5M" trend="+18%" icon={DollarSign} />
-                <StatCard title="Total Outlets" value="180" trend="+5" icon={Map} />
-                <StatCard title="Total Subscribers" value="165" trend="+12" icon={Users} />
-                <StatCard title="Active Queries" value="24" trend="-2" icon={ShoppingBag} />
-            </div>
+  // Subscription stats
+  const activeSubscriptions = outletSubscriptions.filter(s => s.status === 'Active').length;
+  const totalRevenue = outletSubscriptions
+    .filter(s => s.status === 'Active')
+    .reduce((sum, sub) => sum + 999, 0); // Mock calculation
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-white mb-6">Region-wise Sales</h3>
-                    <HighchartsReact highcharts={Highcharts} options={regionChartOptions} />
-                </div>
-                <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
-                    <h3 className="text-lg font-semibold text-white mb-6">Subscription Distribution</h3>
-                    <HighchartsReact highcharts={Highcharts} options={subChartOptions} />
-                </div>
-            </div>
+  const recentLogs = auditLogs.slice(0, 5);
 
-            <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-white mb-4">Recent Online Queries</h3>
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left">
-                        <thead>
-                            <tr className="border-b border-white/10 text-neutral-400 text-sm">
-                                <th className="p-3">ID</th>
-                                <th className="p-3">Customer</th>
-                                <th className="p-3">Outlet</th>
-                                <th className="p-3">Issue</th>
-                                <th className="p-3">Status</th>
-                                <th className="p-3 text-right">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-sm">
-                            <tr className="border-b border-white/5">
-                                <td className="p-3 font-mono">#Q1024</td>
-                                <td className="p-3 text-white">Rahul K.</td>
-                                <td className="p-3">Indore Central</td>
-                                <td className="p-3">Payment Failed</td>
-                                <td className="p-3"><span className="text-red-400 bg-red-400/10 px-2 py-1 rounded">Critical</span></td>
-                                <td className="p-3 text-right"><button className="text-gold-500 hover:underline">Resolve</button></td>
-                            </tr>
-                            <tr className="border-b border-white/5">
-                                <td className="p-3 font-mono">#Q1025</td>
-                                <td className="p-3 text-white">Simran S.</td>
-                                <td className="p-3">Mumbai South</td>
-                                <td className="p-3">Menu Update</td>
-                                <td className="p-3"><span className="text-green-400 bg-green-400/10 px-2 py-1 rounded">Open</span></td>
-                                <td className="p-3 text-right"><button className="text-gold-500 hover:underline">Resolve</button></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  return (
+    <div className="space-y-6">
+      <h3 className="text-xl font-bold text-neutral-400 uppercase tracking-wide">Super Admin Governance</h3>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-6">
+        <StatCard title="Total Admins" value={totalAdmins.toString()} trend="+2" icon={Users} />
+        <StatCard title="Active Admins" value={activeAdmins.toString()} trend="+1" icon={UserCheck} />
+        <StatCard title="Inactive Admins" value={inactiveAdmins.toString()} trend="0" icon={UserX} />
+        <StatCard title="Recent Changes" value={recentLogs.length.toString()} trend="+3" icon={Shield} />
+
+        <StatCard title="Total Tickets" value={totalTickets.toString()} trend="+5" icon={MessageSquare} />
+        <StatCard title="Open Tickets" value={openTickets.toString()} trend="+2" icon={AlertCircle} />
+        <StatCard title="Resolved Tickets" value={resolvedTickets.toString()} trend="+3" icon={CheckCircle} />
+        <StatCard title="Active Subscriptions" value={activeSubscriptions.toString()} trend="+1" icon={CreditCard} />
+      </div>
+
+      <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">Recent Admin Activities</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-white/10 text-neutral-400 text-sm">
+                <th className="p-3">Timestamp</th>
+                <th className="p-3">Admin</th>
+                <th className="p-3">Action</th>
+                <th className="p-3">Details</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm">
+              {recentLogs.map((log) => (
+                <tr key={log.id} className="border-b border-white/5">
+                  <td className="p-3">{new Date(log.timestamp).toLocaleString()}</td>
+                  <td className="p-3 text-white">{log.performedBy}</td>
+                  <td className="p-3">{log.action}</td>
+                  <td className="p-3">{log.details}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-    );
+      </div>
+
+      <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">Admin Overview</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-white/10 text-neutral-400 text-sm">
+                <th className="p-3">Name</th>
+                <th className="p-3">Email</th>
+                <th className="p-3">Outlet Scope</th>
+                <th className="p-3">Status</th>
+                <th className="p-3">Last Updated</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm">
+              {admins.slice(0, 10).map((admin) => (
+                <tr key={admin.id} className="border-b border-white/5">
+                  <td className="p-3 text-white">{admin.name}</td>
+                  <td className="p-3">{admin.email}</td>
+                  <td className="p-3">{admin.outletScope}</td>
+                  <td className="p-3">
+                    <span className={`px-2 py-1 rounded ${admin.status === 'Active' ? 'text-green-400 bg-green-400/10' : 'text-red-400 bg-red-400/10'}`}>
+                      {admin.status}
+                    </span>
+                  </td>
+                  <td className="p-3">{new Date(admin.updatedAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">Ticket Overview</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-white/10 text-neutral-400 text-sm">
+                <th className="p-3">Subject</th>
+                <th className="p-3">Category</th>
+                <th className="p-3">Status</th>
+                <th className="p-3">Priority</th>
+                <th className="p-3">Assigned To</th>
+                <th className="p-3">Created</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm">
+              {tickets.slice(0, 5).map((ticket) => (
+                <tr key={ticket.id} className="border-b border-white/5">
+                  <td className="p-3 text-white">{ticket.subject}</td>
+                  <td className="p-3">{ticket.category}</td>
+                  <td className="p-3">
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      ticket.status === 'Resolved' ? 'text-green-400 bg-green-400/10' :
+                      ticket.status === 'In Process' ? 'text-blue-400 bg-blue-400/10' :
+                      'text-orange-400 bg-orange-400/10'
+                    }`}>
+                      {ticket.status}
+                    </span>
+                  </td>
+                  <td className="p-3">{ticket.priority}</td>
+                  <td className="p-3">{ticket.assignedTo || 'Unassigned'}</td>
+                  <td className="p-3">{new Date(ticket.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">Subscription Overview</h3>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left">
+            <thead>
+              <tr className="border-b border-white/10 text-neutral-400 text-sm">
+                <th className="p-3">Outlet</th>
+                <th className="p-3">Plan</th>
+                <th className="p-3">Status</th>
+                <th className="p-3">Monthly Revenue</th>
+                <th className="p-3">Next Billing</th>
+                <th className="p-3">Auto Renew</th>
+              </tr>
+            </thead>
+            <tbody className="text-sm">
+              {outletSubscriptions.slice(0, 5).map((subscription) => (
+                <tr key={subscription.id} className="border-b border-white/5">
+                  <td className="p-3 text-white">{subscription.outletId}</td>
+                  <td className="p-3">{subscription.planId}</td>
+                  <td className="p-3">
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      subscription.status === 'Active' ? 'text-green-400 bg-green-400/10' :
+                      subscription.status === 'Expired' ? 'text-red-400 bg-red-400/10' :
+                      'text-orange-400 bg-orange-400/10'
+                    }`}>
+                      {subscription.status}
+                    </span>
+                  </td>
+                  <td className="p-3">₹999</td>
+                  <td className="p-3">{subscription.endDate.toLocaleDateString()}</td>
+                  <td className="p-3">{subscription.autoRenew ? 'Yes' : 'No'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 };

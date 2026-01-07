@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import QRCode from "react-qr-code";
 import { UserRole, Table, OrderStatus, TableStatus } from "../types";
 import { TableMap } from "./views/TableMap";
@@ -8,6 +8,7 @@ import { UsersView } from "./views/UsersView";
 import { InventoryView } from "./views/InventoryView";
 import { ReservationsView } from "./views/ReservationsView";
 import { NewOrderView } from "./views/NewOrderView";
+import { OrderBillingView } from "./views/OrderBillingView";
 import { PaymentsView } from "./views/PaymentsView";
 import { PaymentHistoryView } from "./views/PaymentHistoryView";
 import { ActiveOrdersView } from "./views/ActiveOrdersView";
@@ -24,7 +25,19 @@ import { PurchaseView } from "./views/PurchaseView";
 import { CustomersView } from "./views/CustomersView";
 import { QRCodeManagerView } from "./views/QRCodeManagerView";
 import { ProfileView } from "./views/ProfileView";
+import { SuperAdminDashboard } from "./views/SuperAdminDashboard";
+import { AdminManagement } from "./views/AdminManagement";
+import {
+  AdminResponsibilityMatrixEditor as AdminResponsibilityConfig,
+  AdminResponsibilityMatrixEditor,
+} from "./views/AdminResponsibilityMatrixEditor";
+import { RoutePageControlPanel } from "./views/RoutePageControlPanel";
+import { PlatformPermissionRegistry } from "./views/PlatformPermissionRegistry";
+import { AuditLog } from "./views/AuditLog";
+import { AreaMaster } from "./views/AreaMaster";
+import { TableMaster } from "./views/TableMaster";
 import { useAppStore } from "../store/useAppStore";
+import { useSuperAdmin } from "../hooks/useSuperAdmin";
 
 interface AppRouterProps {
   currentPage: string;
@@ -46,6 +59,140 @@ export const AppRouter: React.FC<AppRouterProps> = ({
   onUpdateOrderStatus,
 }) => {
   const { tables, orders, guestTableId } = useAppStore();
+  const superAdminHook = useSuperAdmin();
+  const [selectedAdminId, setSelectedAdminId] = React.useState<string | null>(
+    null
+  );
+  const [routeControlSelectedAdminId, setRouteControlSelectedAdminId] = React.useState<string | null>(
+    null
+  );
+
+  const handleRouteControlTogglePage = (page: any, enabled: boolean) => {
+    if (routeControlSelectedAdminId) {
+      const admin = superAdminHook.admins.find(a => a.id === routeControlSelectedAdminId);
+      if (admin) {
+        const updatedMatrix = {
+          ...admin.responsibilityMatrix,
+          pageAuthority: {
+            ...admin.responsibilityMatrix.pageAuthority,
+            [page]: enabled
+          }
+        };
+        superAdminHook.updateResponsibilityMatrix(routeControlSelectedAdminId, updatedMatrix);
+      }
+    }
+  };
+
+  // Super Admin Flow Logic
+  if (userRole === UserRole.SUPER_ADMIN) {
+    const validSuperAdminPages = [
+      "Super Admin Dashboard",
+      "Admin Management",
+      "Admin Responsibility Matrix",
+      "Route & Page Control",
+      "Platform Permission Registry",
+      "Audit Log",
+      "Ticket Management",
+      "Subscription Management",
+      "Area Master",
+      "Table Master"
+    ];
+
+    const pageToShow = validSuperAdminPages.includes(currentPage)
+      ? currentPage
+      : "Super Admin Dashboard";
+
+    switch (pageToShow) {
+      case "Super Admin Dashboard":
+        return (
+          <SuperAdminDashboard
+            admins={superAdminHook.admins}
+            auditLogs={superAdminHook.auditLogs}
+          />
+        );
+
+      case "Admin Management":
+        if (selectedAdminId) {
+          const admin = superAdminHook.admins.find(
+            (a) => a.id === selectedAdminId
+          );
+          return admin ? (
+            <AdminResponsibilityConfig
+              admin={admin}
+              onUpdateMatrix={superAdminHook.updateResponsibilityMatrix}
+              onBack={() => setSelectedAdminId(null)}
+            />
+          ) : (
+            <div>Admin not found</div>
+          );
+        } else {
+          return (
+            <AdminManagement
+              admins={superAdminHook.admins}
+              onCreateAdmin={superAdminHook.createAdmin}
+              onUpdateAdmin={superAdminHook.updateAdmin}
+              onDeleteAdmin={superAdminHook.deleteAdmin}
+              onNavigateToConfig={setSelectedAdminId}
+            />
+          );
+        }
+
+      case "Admin Responsibility Matrix":
+        // For simplicity, show editor for first admin or a selector
+        const firstAdmin = superAdminHook.admins[0]; // In real app, have a selector
+        return firstAdmin ? (
+          <AdminResponsibilityMatrixEditor
+            onBack={() => {}}
+            admin={firstAdmin}
+            onUpdateMatrix={superAdminHook.updateResponsibilityMatrix}
+          />
+        ) : (
+          <div className="text-white">
+            No admins to edit. Create an admin first.
+          </div>
+        );
+
+      case "Route & Page Control":
+        const selectedAdmin = routeControlSelectedAdminId ? superAdminHook.admins.find(a => a.id === routeControlSelectedAdminId) : null;
+        const enabledPagesForAdmin = selectedAdmin ? Object.keys(selectedAdmin.responsibilityMatrix.pageAuthority).filter(page => selectedAdmin.responsibilityMatrix.pageAuthority[page as any]) as any[] : [];
+        return (
+          <RoutePageControlPanel
+            admins={superAdminHook.admins}
+            selectedAdminId={routeControlSelectedAdminId}
+            onSelectAdmin={setRouteControlSelectedAdminId}
+            availablePages={superAdminHook.availablePages}
+            enabledPages={enabledPagesForAdmin}
+            onTogglePage={handleRouteControlTogglePage}
+            onAddPage={superAdminHook.addPage}
+            onRemovePage={superAdminHook.removePage}
+          />
+        );
+
+      case "Platform Permission Registry":
+        return (
+          <PlatformPermissionRegistry registry={superAdminHook.registry} />
+        );
+
+      case "Audit Log":
+        return <AuditLog logs={superAdminHook.auditLogs} />;
+      case "Ticket Management":
+        return <TicketsView userRole={userRole} />;
+      case "Subscription Management":
+        return <SubscriptionView userRole={userRole} />;
+      case "Area Master":
+        return <AreaMaster />;
+      case "Table Master":
+        return <TableMaster />;
+
+      default:
+        return (
+          <SuperAdminDashboard
+            admins={superAdminHook.admins}
+            auditLogs={superAdminHook.auditLogs}
+          />
+        );
+    }
+  }
 
   // Guest Flow Logic
   if (userRole === UserRole.GUEST) {
@@ -72,6 +219,7 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     "Inventory",
     "Reservations",
     "New Order",
+    "Order & Billing",
     "Payments",
     "Order History",
     "Payment History",
@@ -87,12 +235,14 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     "QR Codes",
     "Profile",
     "Waiter Dashboard",
+    "Area Master",
+    "Table Master",
   ];
-  
+
   // If currentPage is not valid, default to Dashboard
   const pageToShow = validStaffPages.includes(currentPage)
-  ? currentPage
-  : "Dashboard";
+    ? currentPage
+    : "Dashboard";
   console.log(pageToShow, "pageToShow");
 
   // Existing Staff Flow
@@ -186,6 +336,15 @@ export const AppRouter: React.FC<AppRouterProps> = ({
         </div>
       );
 
+    case "Order & Billing":
+      return (
+        <div className="animate-in fade-in duration-500">
+          <OrderBillingView
+            initialTableId={selectedTableId}
+          />
+        </div>
+      );
+
     case "Payments":
       return (
         <div className="animate-in fade-in duration-500">
@@ -240,14 +399,14 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     case "Tickets":
       return (
         <div className="animate-in fade-in duration-500">
-          <TicketsView />
+          <TicketsView userRole={userRole} />
         </div>
       );
 
     case "Subscription":
       return (
         <div className="animate-in fade-in duration-500">
-          <SubscriptionView />
+          <SubscriptionView userRole={userRole} />
         </div>
       );
 
@@ -295,6 +454,20 @@ export const AppRouter: React.FC<AppRouterProps> = ({
             onTableClick={onTableClick}
             onUpdateOrderStatus={onUpdateOrderStatus}
           />
+        </div>
+      );
+
+    case "Area Master":
+      return (
+        <div className="animate-in fade-in duration-500">
+          <AreaMaster />
+        </div>
+      );
+
+    case "Table Master":
+      return (
+        <div className="animate-in fade-in duration-500">
+          <TableMaster />
         </div>
       );
 
