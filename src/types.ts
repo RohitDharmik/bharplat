@@ -68,7 +68,9 @@ export enum OrderStatus {
   PREPARING = 'Preparing',
   READY = 'Ready',
   SERVED = 'Served',
-  COMPLETED = 'Completed'
+  COMPLETED = 'Completed',
+  PAID = 'Paid',
+  PENDING = 'Pending'
 }
 
 export enum OrderType {

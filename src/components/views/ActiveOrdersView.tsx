@@ -41,10 +41,11 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
   const advanceStatus = async (order: Order) => {
     let nextStatus: OrderStatus | null = null;
     switch(order.status) {
+      case OrderStatus.PENDING: nextStatus = OrderStatus.ORDERED; break;
       case OrderStatus.ORDERED: nextStatus = OrderStatus.PREPARING; break;
       case OrderStatus.PREPARING: nextStatus = OrderStatus.READY; break;
       case OrderStatus.READY: nextStatus = OrderStatus.SERVED; break;
-      case OrderStatus.SERVED: nextStatus = OrderStatus.COMPLETED; break;
+      case OrderStatus.SERVED: nextStatus = OrderStatus.PAID; break;
       default: break;
     }
     if (nextStatus) {
@@ -54,6 +55,7 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
   };
 
   const statusColors: Record<string, string> = {
+    [OrderStatus.PENDING]: 'bg-gray-500/10 text-gray-500 border-gray-500/20',
     [OrderStatus.ORDERED]: 'bg-red-500/10 text-red-500 border-red-500/20',
     [OrderStatus.PREPARING]: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
     [OrderStatus.READY]: 'bg-green-500/10 text-green-500 border-green-500/20',
@@ -69,7 +71,7 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
           <p className="text-neutral-500 dark:text-neutral-400 text-sm">Monitor all ongoing dining orders in real-time</p>
         </div>
         <div className="flex gap-2 bg-neutral-100 dark:bg-white/5 p-1 rounded-lg">
-          {['All', OrderStatus.ORDERED, OrderStatus.PREPARING, OrderStatus.READY, OrderStatus.SERVED].map(status => (
+          {['All', OrderStatus.PENDING, OrderStatus.ORDERED, OrderStatus.PREPARING, OrderStatus.READY, OrderStatus.SERVED].map(status => (
             <button
               key={status}
               onClick={() => setFilterStatus(status)}
