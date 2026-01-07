@@ -38,7 +38,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({ userRole }) => {
       return (
           <div className="space-y-6 animate-in fade-in duration-500">
              <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-4">Super Admin Console</h2>
-             <SuperAdminDashboard />
+             <SuperAdminDashboard admins={[]} auditLogs={[]} />
           </div>
       );
   }

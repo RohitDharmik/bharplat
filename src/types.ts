@@ -51,6 +51,7 @@ export interface Table {
   status: TableStatus;
   currentOrderId?: string;
   areaId: string;
+  zone?: string; // Optional zone property for VIP designation
 }
 
 export interface MenuItem {

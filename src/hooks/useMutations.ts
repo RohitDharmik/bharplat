@@ -1,7 +1,7 @@
 import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
 import { api } from '../api/axiosInstance';
 import { useAppStore } from '../store/useAppStore';
-import { MenuItem, User, InventoryItem, Reservation, Order, Table, OrderStatus } from '../types';
+import { MenuItem, User, InventoryItem, Reservation, Order, Table, OrderStatus, OrderType } from '../types';
 
 /**
  * Custom hook for menu item mutations with Zustand integration
@@ -218,12 +218,21 @@ export const usePlaceOrderMutation = (options?: UseMutationOptions<Order, Error,
       // return response;
       
       // For now, return mock order
+      const subtotal = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+      const gstRate = 5; // Configurable GST rate
+      const gstAmount = (subtotal * gstRate) / 100;
+      const totalAmount = subtotal + gstAmount;
+      
       const mockOrder: Order = {
         id: `o${Date.now()}`,
         tableId,
         items,
         status: OrderStatus.PENDING,
-        totalAmount: items.reduce((acc, item) => acc + (item.price * item.quantity), 0),
+        orderType: OrderType.DINE_IN, // Default to dine-in
+        totalAmount,
+        subtotal,
+        gstRate,
+        gstAmount,
         createdAt: new Date(),
         updatedAt: new Date()
       };
