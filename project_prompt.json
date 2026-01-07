@@ -1,0 +1,324 @@
+{
+  "project": {
+    "name": "BharPlate",
+    "description": "A comprehensive restaurant management system for modern dining establishments, featuring precision management for reservations, KOTs, table service, and customer experience.",
+    "version": "1.0.0",
+    "type": "Restaurant POS & Management System",
+    "target_audience": "Restaurants, cafes, and dining establishments"
+  },
+  "tech_stack": {
+    "frontend": {
+      "framework": "React 18",
+      "language": "TypeScript",
+      "styling": "Tailwind CSS",
+      "ui_library": "Ant Design",
+      "state_management": "Zustand",
+      "data_fetching": "TanStack Query (React Query)",
+      "charts": "Highcharts",
+      "routing": "React Router (implied)",
+      "icons": "Lucide React",
+      "animations": "Framer Motion (in LoginScreen)"
+    },
+    "backend": {
+      "api_base": "https://api.zastang.com/v1",
+      "http_client": "Axios",
+      "authentication": "Bearer Token"
+    },
+    "build_tools": {
+      "bundler": "Vite",
+      "package_manager": "npm"
+    }
+  },
+  "architecture": {
+    "pattern": "Component-based architecture with hooks and context",
+    "state_management": "Zustand store with real-time sync via BroadcastChannel",
+    "data_flow": "API → Zustand Store → Components",
+    "file_structure": {
+      "src/": {
+        "api/": "API configuration and axios instance",
+        "components/": {
+          "ui/": "Reusable UI components (Layout, Modal, DashboardWidgets)",
+          "views/": "Page-level components for different screens"
+        },
+        "context/": "React Query provider",
+        "hooks/": "Custom hooks for API calls and mutations",
+        "store/": "Zustand global state management",
+        "types.ts": "TypeScript type definitions",
+        "constants.ts": "Mock data and configuration constants",
+        "App.tsx": "Main application component",
+        "main.jsx": "Entry point with React Query provider",
+        "index.tsx": "React root rendering"
+      }
+    }
+  },
+  "user_roles": [
+    {
+      "role": "Super Admin",
+      "permissions": ["Full system access", "User management", "Reports", "Settings"],
+      "nav_items": ["Dashboard", "Users", "Reports", "Tickets", "Settings", "Profile"]
+    },
+    {
+      "role": "Admin",
+      "permissions": ["Most features except super admin functions"],
+      "nav_items": ["Dashboard", "Reservations", "Users", "Tables", "Active Orders", "Subscription", "Order History", "Menu", "Inventory", "Purchase", "Recipes", "Customers", "Reports", "QR Codes", "Tickets", "Settings", "Profile"]
+    },
+    {
+      "role": "Sub Admin",
+      "permissions": ["Similar to Admin but limited scope"],
+      "nav_items": ["Dashboard", "Reservations", "My Tables", "New Order", "Users", "Subscription", "Tables", "Payments", "Active Orders", "Order History", "Menu", "Inventory", "Purchase", "Recipes", "Customers", "Reports", "QR Codes", "Tickets", "Settings", "Profile"]
+    },
+    {
+      "role": "Manager",
+      "permissions": ["Staff management", "Operations oversight"],
+      "nav_items": ["Dashboard", "My Tables", "Tables", "New Order", "Reservations", "Subscription", "Users", "Active Orders", "Order History", "Payments", "Menu", "Customers", "Staff", "Inventory", "Purchase", "Reports", "Feedback", "Tickets", "Profile"]
+    },
+    {
+      "role": "Chef",
+      "permissions": ["Menu creation", "Recipe management", "Kitchen operations"],
+      "nav_items": ["Kitchen Display", "Menu Creator", "Recipes", "Inventory", "Purchase", "Profile"]
+    },
+    {
+      "role": "Cook",
+      "permissions": ["Kitchen display access", "Recipe viewing"],
+      "nav_items": ["Kitchen Display", "Inventory", "Recipes", "Profile"]
+    },
+    {
+      "role": "Waiter",
+      "permissions": ["Table management", "Order taking", "Customer service"],
+      "nav_items": ["Waiter Dashboard", "My Tables", "New Order", "Reservations", "Payments", "Order History", "Profile"]
+    },
+    {
+      "role": "Guest",
+      "permissions": ["View menu", "Digital ordering via QR"],
+      "nav_items": ["Menu", "My Bill"]
+    }
+  ],
+  "features": {
+    "table_management": {
+      "description": "Visual table mapping with real-time status updates",
+      "statuses": ["Available", "Occupied", "Reserved", "Dirty"],
+      "zones": ["Main Hall", "Terrace", "VIP"],
+      "capacity_tracking": true
+    },
+    "order_management": {
+      "description": "Complete order lifecycle from creation to payment",
+      "statuses": ["Pending", "Preparing", "Ready", "Served", "Paid"],
+      "features": ["Item notes", "Order-level notes", "Quantity management", "Real-time updates"]
+    },
+    "menu_management": {
+      "description": "Digital menu with categories, pricing, and availability",
+      "categories": ["Starter", "Main", "Dessert", "Drink"],
+      "features": ["Image uploads", "Price management", "Availability toggles"]
+    },
+    "kitchen_display": {
+      "description": "Real-time KOT system for kitchen operations",
+      "features": ["Order status updates", "Priority handling", "Time tracking"]
+    },
+    "inventory_management": {
+      "description": "Stock tracking with alerts and purchase management",
+      "features": ["Low stock alerts", "Category organization", "Vendor management"]
+    },
+    "reservation_system": {
+      "description": "Table booking and customer management",
+      "features": ["Date/time booking", "Guest count", "Table assignment"]
+    },
+    "payment_processing": {
+      "description": "Payment handling and history tracking",
+      "features": ["Multiple payment methods", "Receipt generation", "Transaction history"]
+    },
+    "reporting_analytics": {
+      "description": "Business intelligence and performance metrics",
+      "features": ["Revenue charts", "Occupancy rates", "Customer analytics"]
+    },
+    "user_management": {
+      "description": "Staff and customer data management",
+      "features": ["Role-based access", "Attendance tracking", "Customer profiles"]
+    },
+    "qr_code_system": {
+      "description": "Digital menu access for guests",
+      "features": ["QR code generation", "Guest ordering", "Table-specific menus"]
+    },
+    "feedback_system": {
+      "description": "Customer satisfaction tracking",
+      "features": ["Rating system", "Comment collection", "Performance insights"]
+    },
+    "ticket_system": {
+      "description": "Support ticket management",
+      "categories": ["Technical", "Billing", "Feature Request", "Other"],
+      "statuses": ["Pending", "In Process", "Resolved", "Closed"]
+    }
+  },
+  "data_models": {
+    "User": {
+      "fields": ["id", "name", "role", "avatar", "email", "status", "lastActive"],
+      "relationships": ["AttendanceRecord"]
+    },
+    "Table": {
+      "fields": ["id", "name", "capacity", "status", "currentOrderId", "zone"],
+      "relationships": ["Order", "Reservation"]
+    },
+    "MenuItem": {
+      "fields": ["id", "name", "category", "price", "description", "image", "available"],
+      "relationships": ["Recipe"]
+    },
+    "Order": {
+      "fields": ["id", "tableId", "items", "status", "totalAmount", "createdAt", "updatedAt", "waiterId", "notes"],
+      "relationships": ["Table", "OrderItem", "User"]
+    },
+    "OrderItem": {
+      "fields": ["menuItemId", "name", "quantity", "notes", "price"],
+      "relationships": ["MenuItem", "Order"]
+    },
+    "Reservation": {
+      "fields": ["id", "customerName", "customerPhone", "date", "guests", "status", "assignedTableId", "notes"],
+      "relationships": ["Table", "Customer"]
+    },
+    "InventoryItem": {
+      "fields": ["id", "name", "quantity", "unit", "minThreshold", "category", "status", "lastUpdated"],
+      "relationships": ["Recipe", "Purchase"]
+    },
+    "Recipe": {
+      "fields": ["id", "menuItemId", "ingredients"],
+      "relationships": ["MenuItem", "InventoryItem"]
+    },
+    "Purchase": {
+      "fields": ["id", "date", "vendorName", "totalAmount", "status", "items"],
+      "relationships": ["InventoryItem"]
+    },
+    "Ticket": {
+      "fields": ["id", "subject", "category", "description", "status", "createdAt"],
+      "relationships": []
+    },
+    "SubscriptionPlan": {
+      "fields": ["id", "name", "price", "validity", "features"],
+      "relationships": []
+    },
+    "Feedback": {
+      "fields": ["id", "customerName", "rating", "comment", "date", "tableId"],
+      "relationships": ["Table", "Customer"]
+    },
+    "Customer": {
+      "fields": ["id", "name", "phone", "email", "visits", "totalSpent", "lastVisit", "notes"],
+      "relationships": ["Feedback", "Reservation"]
+    },
+    "AttendanceRecord": {
+      "fields": ["id", "userId", "date", "status", "checkIn", "checkOut"],
+      "relationships": ["User"]
+    }
+  },
+  "api_endpoints": {
+    "auth": {
+      "login": "POST /auth/login"
+    },
+    "menu": {
+      "getMenu": "GET /menu",
+      "createMenuItem": "POST /menu",
+      "updateMenuItem": "PUT /menu/{id}",
+      "deleteMenuItem": "DELETE /menu/{id}"
+    },
+    "tables": {
+      "getTables": "GET /tables",
+      "updateTableStatus": "PUT /tables/{id}/status"
+    },
+    "orders": {
+      "getOrders": "GET /orders",
+      "createOrder": "POST /orders",
+      "updateOrderStatus": "PUT /orders/{id}/status"
+    },
+    "users": {
+      "getUsers": "GET /users",
+      "createUser": "POST /users"
+    },
+    "inventory": {
+      "getInventory": "GET /inventory",
+      "createInventoryItem": "POST /inventory"
+    },
+    "reservations": {
+      "getReservations": "GET /reservations",
+      "createReservation": "POST /reservations"
+    },
+    "feedback": {
+      "getFeedback": "GET /feedback",
+      "createFeedback": "POST /feedback"
+    },
+    "tickets": {
+      "getTickets": "GET /tickets",
+      "createTicket": "POST /tickets"
+    },
+    "customers": {
+      "getCustomers": "GET /customers",
+      "createCustomer": "POST /customers"
+    },
+    "reports": {
+      "getReports": "GET /reports"
+    },
+    "payments": {
+      "processPayment": "POST /payments",
+      "getPaymentHistory": "GET /payments/history"
+    },
+    "recipes": {
+      "getRecipes": "GET /recipes",
+      "createRecipe": "POST /recipes"
+    },
+    "purchases": {
+      "getPurchases": "GET /purchases",
+      "createPurchase": "POST /purchases"
+    }
+  },
+  "key_components": {
+    "App.tsx": "Main application component with routing and state management",
+    "AppRouter.tsx": "Central routing component for different user roles and pages",
+    "Layout.tsx": "Main layout wrapper with sidebar navigation and header",
+    "LoginScreen.tsx": "Landing page with authentication modal",
+    "DashboardView.tsx": "Main dashboard with stats and charts",
+    "TableMap.tsx": "Interactive table layout visualization",
+    "NewOrderView.tsx": "Order creation interface with menu selection",
+    "KitchenDisplay.tsx": "Real-time order display for kitchen staff",
+    "MenuManager.tsx": "Menu item CRUD interface",
+    "AdminTableModal.tsx": "Table management modal for admins",
+    "useAppStore.ts": "Zustand store for global state management",
+    "useApi.ts": "Custom hook for API operations",
+    "useMutations.ts": "React Query mutations for data operations",
+    "axiosInstance.ts": "Configured axios instance with interceptors"
+  },
+  "mock_data": {
+    "menu_items": 8,
+    "tables": 12,
+    "users": 5,
+    "orders": 1,
+    "inventory_items": 5,
+    "reservations": 2,
+    "feedback": 2,
+    "tickets": 2,
+    "purchases": 2,
+    "customers": 2,
+    "subscription_plans": 3
+  },
+  "ui_themes": {
+    "light_mode": "Clean white background with gold accents",
+    "dark_mode": "Dark theme with gold highlights",
+    "color_scheme": {
+      "primary": "#D4AF37 (Gold)",
+      "background_dark": "#0a0a0a",
+      "background_light": "#ffffff",
+      "text_dark": "#ffffff",
+      "text_light": "#000000"
+    }
+  },
+  "responsive_design": {
+    "mobile_first": true,
+    "breakpoints": ["sm", "md", "lg", "xl"],
+    "mobile_optimizations": ["Bottom sheet cart", "Touch-friendly buttons", "Swipe gestures"]
+  },
+  "real_time_features": {
+    "broadcast_channel": "Cross-tab synchronization",
+    "live_updates": ["Order status", "Table status", "Kitchen display"],
+    "sync_mechanism": "BroadcastChannel API for real-time state sync"
+  },
+  "development_status": {
+    "current_state": "Development/Mock Data",
+    "api_integration": "Partially implemented (axios configured, endpoints defined)",
+    "features_implemented": ["UI Components", "State Management", "Routing", "Mock Data"],
+    "pending_features": ["Full API integration", "Real-time WebSocket", "Payment gateway", "QR code generation"]
+  }
+}
