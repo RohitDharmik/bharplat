@@ -17,11 +17,11 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
   const [currentNotes, setCurrentNotes] = useState('');
   const [messageApi, contextHolder] = message.useMessage();
 
-  // Filter orders that are NOT paid
-  const activeOrders = orders.filter(item => item.status !== OrderStatus.PAID);
+  // Filter orders that are NOT completed
+  const activeOrders = orders.filter(item => item.status !== OrderStatus.COMPLETED);
   
-  const filteredOrders = filterStatus === 'All' 
-    ? activeOrders 
+  const filteredOrders = filterStatus === 'All'
+    ? activeOrders
     : activeOrders.filter(item => item.status === filterStatus);
 
   const handleOpenNotes = (order: Order) => {
@@ -41,10 +41,10 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
   const advanceStatus = async (order: Order) => {
     let nextStatus: OrderStatus | null = null;
     switch(order.status) {
-      case OrderStatus.PENDING: nextStatus = OrderStatus.PREPARING; break;
+      case OrderStatus.ORDERED: nextStatus = OrderStatus.PREPARING; break;
       case OrderStatus.PREPARING: nextStatus = OrderStatus.READY; break;
       case OrderStatus.READY: nextStatus = OrderStatus.SERVED; break;
-      case OrderStatus.SERVED: nextStatus = OrderStatus.PAID; break;
+      case OrderStatus.SERVED: nextStatus = OrderStatus.COMPLETED; break;
       default: break;
     }
     if (nextStatus) {
@@ -54,7 +54,7 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
   };
 
   const statusColors: Record<string, string> = {
-    [OrderStatus.PENDING]: 'bg-red-500/10 text-red-500 border-red-500/20',
+    [OrderStatus.ORDERED]: 'bg-red-500/10 text-red-500 border-red-500/20',
     [OrderStatus.PREPARING]: 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20',
     [OrderStatus.READY]: 'bg-green-500/10 text-green-500 border-green-500/20',
     [OrderStatus.SERVED]: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
@@ -69,7 +69,7 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
           <p className="text-neutral-500 dark:text-neutral-400 text-sm">Monitor all ongoing dining orders in real-time</p>
         </div>
         <div className="flex gap-2 bg-neutral-100 dark:bg-white/5 p-1 rounded-lg">
-          {['All', OrderStatus.PENDING, OrderStatus.PREPARING, OrderStatus.READY, OrderStatus.SERVED].map(status => (
+          {['All', OrderStatus.ORDERED, OrderStatus.PREPARING, OrderStatus.READY, OrderStatus.SERVED].map(status => (
             <button
               key={status}
               onClick={() => setFilterStatus(status)}
