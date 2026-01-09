@@ -3,6 +3,7 @@ import { Collapse } from 'antd';
 import { MenuItem } from '../../../types';
 import { MenuItemCard } from './MenuItemCard';
 import { CategoryHeader } from './CategoryHeader';
+import './GuestPortal.scss';
 
 interface CategoryAccordionProps {
     categories: string[];
@@ -22,7 +23,7 @@ export const CategoryAccordion: React.FC<CategoryAccordionProps> = ({
     const { Panel } = Collapse;
 
     return (
-        <div className="max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
+        <div className="max-h-[100vh] overflow-y-auto pr-2 custom-scrollbar">
             <Collapse
                 accordion
                 defaultActiveKey={categories[1]} // Open first category by default (Starter)
@@ -65,7 +66,7 @@ export const CategoryAccordion: React.FC<CategoryAccordionProps> = ({
                             }`}
                         >
                             {/* Category Items Row */}
-                            <div className="grid grid-cols-1 gap-4 p-4">
+                            <div className="grid grid-cols-1 gap-1 p-2">
                                 {categoryItems.map(item => (
                                     <MenuItemCard key={item.id} item={item} onAddToCart={onAddToCart} />
                                 ))}

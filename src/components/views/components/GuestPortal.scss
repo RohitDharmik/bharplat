@@ -1,0 +1,33 @@
+// Guest Portal Component Styles
+
+// Ant Design Collapse Content Box Padding
+:where(.css-dev-only-do-not-override-pzzrca).ant-collapse .ant-collapse-content>.ant-collapse-content-box {
+    padding: 0px !important;
+}
+
+// Additional responsive adjustments for small devices
+@media (max-width: 640px) {
+    :where(.css-dev-only-do-not-override-pzzrca).ant-collapse .ant-collapse-content>.ant-collapse-content-box {
+        padding: 0px !important;
+    }
+}
+
+// Ensure consistent spacing within the collapse content
+.ant-collapse-content-box {
+    .menu-item-list {
+        padding: 8px 12px;
+        
+        @media (max-width: 640px) {
+            padding: 6px 8px;
+        }
+    }
+}
+
+// Category header spacing optimization
+.category-header {
+    padding: 12px 16px;
+    
+    @media (max-width: 640px) {
+        padding: 8px 12px;
+    }
+}
