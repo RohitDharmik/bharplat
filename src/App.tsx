@@ -115,8 +115,8 @@ const App = () => {
   // Global Loader
   if (!isInitialized && isLoading) {
       return (
-          <div className="h-screen w-screen flex flex-col items-center justify-center bg-[#0a0a0a] text-gold-500 gap-4">
-              <Spin indicator={<LoadingOutlined style={{ fontSize: 48, color: '#D4AF37' }} spin />} />
+          <div className="h-screen w-screen flex flex-col items-center justify-center bg-[#0a0a0a] text-primary-500 gap-4">
+              <Spin indicator={<LoadingOutlined style={{ fontSize: 48, color: 'var(--primary-color)' }} spin />} />
               <p className="font-bold tracking-wider animate-pulse">INITIALIZING BHARPLATE...</p>
           </div>
       );
@@ -128,7 +128,7 @@ const App = () => {
       theme={{
         algorithm: isDarkMode ? theme.darkAlgorithm : theme.defaultAlgorithm,
         token: {
-          colorPrimary: '#D4AF37', // Gold
+          colorPrimary: 'var(--primary-color)', // Theme-aware primary color
         },
       }}
     >

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Save, Globe, BellRing, Database, Printer, ToggleLeft, Percent, Lock } from 'lucide-react';
+import { Save, Globe, BellRing, Database, Printer, ToggleLeft, Percent, Lock, Palette } from 'lucide-react';
 import { Switch, Divider, Tabs, Input, Select, Button, notification } from 'antd';
+import { ThemeConfigView } from './ThemeConfigView';
 
 const { TabPane } = Tabs;
 
@@ -19,9 +20,9 @@ export const SettingsView: React.FC = () => {
             <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">System Settings</h2>
             <p className="text-neutral-500 text-sm">Configure your outlet, hardware, and preferences</p>
          </div>
-         <Button 
-            type="primary" 
-            icon={<Save size={16} />} 
+         <Button
+            type="primary"
+            icon={<Save size={16} />}
             onClick={handleSave}
             className="bg-gold-500 text-black border-none hover:bg-gold-400 font-bold"
          >
@@ -162,6 +163,20 @@ export const SettingsView: React.FC = () => {
                             <span className="text-neutral-900 dark:text-white font-medium">Auto-print Bill on Payment</span>
                             <Switch />
                         </div>
+                    </div>
+                 )
+             },
+             {
+                 key: '5',
+                 label: (
+                     <span className="flex items-center gap-2">
+                         <Palette size={16} />
+                         Theme
+                     </span>
+                 ),
+                 children: (
+                    <div className="pt-4">
+                        <ThemeConfigView />
                     </div>
                  )
              }

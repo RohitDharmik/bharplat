@@ -19,6 +19,59 @@
   background: rgba(0, 0, 0, 0.4);
 }
 
+/* Theme Variables */
+:root {
+  --primary-color: #f47936;
+  --primary-50: #fff7ed;
+  --primary-100: #ffedd5;
+  --primary-200: #fed7aa;
+  --primary-300: #fdba74;
+  --primary-400: #fb923c;
+  --primary-500: #f47936;
+  --primary-600: #ea580c;
+  --primary-700: #c2410c;
+  --primary-800: #9a3412;
+  --primary-900: #7c2d12;
+  
+  --secondary-color: #2d3748;
+  --border-radius: 8px;
+  --font-family: Inter, system-ui, sans-serif;
+}
+
+/* Dark Theme Variables */
+.dark {
+  --primary-color: #f47936;
+  --primary-50: #2d2a24;
+  --primary-100: #3d382e;
+  --primary-200: #4d4638;
+  --primary-300: #5d5442;
+  --primary-400: #6d624c;
+  --primary-500: #f47936;
+  --primary-600: #ea580c;
+  --primary-700: #c2410c;
+  --primary-800: #9a3412;
+  --primary-900: #7c2d12;
+  
+  --secondary-color: #e2e8f0;
+  --border-radius: 8px;
+  --font-family: Inter, system-ui, sans-serif;
+}
+
+/* Theme Utility Classes */
+.bg-primary-50 { background-color: var(--primary-50); }
+.bg-primary-100 { background-color: var(--primary-100); }
+.bg-primary-200 { background-color: var(--primary-200); }
+.bg-primary-300 { background-color: var(--primary-300); }
+.bg-primary-400 { background-color: var(--primary-400); }
+.bg-primary-500 { background-color: var(--primary-500); }
+.bg-primary-600 { background-color: var(--primary-600); }
+.bg-primary-700 { background-color: var(--primary-700); }
+.bg-primary-800 { background-color: var(--primary-800); }
+.bg-primary-900 { background-color: var(--primary-900); }
+
+.border-primary-500 { border-color: var(--primary-500); }
+.text-primary-500 { color: var(--primary-500); }
+
 /* Responsive Typography */
 .text-responsive {
   font-size: clamp(0.875rem, 1.5vw, 1.125rem);
@@ -228,7 +281,7 @@
 
 /* Responsive Focus Classes */
 .focus-responsive:focus {
-  outline: 2px solid #d9a744;
+  outline: 2px solid var(--primary-500);
   outline-offset: 2px;
 }
 

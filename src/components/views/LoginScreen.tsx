@@ -26,16 +26,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans selection:bg-gold-500/30">
+    <div className="min-h-screen bg-[#0a0a0a] text-white font-sans selection:bg-primary-500/30">
       {/* Navigation */}
       <nav className="fixed w-full z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="text-2xl font-bold tracking-tighter flex items-center gap-2">
-            <div className="w-8 h-8 bg-gold-500 rounded-lg flex items-center justify-center text-black">
+            <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center text-black">
               <span className="font-bold text-xl">B</span>
             </div>
             <span>
-              BHAR<span className="text-gold-500">PLATE</span>
+              BHAR<span className="text-primary-500">PLATE</span>
             </span>
           </div>
 
@@ -78,11 +78,11 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
         {/* Background Gradients */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-gold-500/20 rounded-full blur-[120px] -z-10 opacity-50"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-primary-500/20 rounded-full blur-[120px] -z-10 opacity-50"></div>
 
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/20 text-gold-500 text-xs font-bold tracking-wider uppercase">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-500 text-xs font-bold tracking-wider uppercase">
               <span className="w-2 h-2 rounded-full bg-gold-500 animate-pulse"></span>
               The Future of Dining
             </div>
@@ -102,7 +102,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
             <div className="flex flex-col sm:flex-row gap-4">
               <button
                 onClick={() => setIsLoginModalOpen(true)}
-                className="px-8 py-4 bg-gold-500 hover:bg-gold-400 text-black font-bold rounded-xl flex items-center justify-center gap-2 transition-all"
+                className="px-8 py-4 bg-primary-500 hover:bg-primary-400 text-black font-bold rounded-xl flex items-center justify-center gap-2 transition-all"
               >
                 START FREE TRIAL
                 <ArrowRight size={20} />
@@ -130,8 +130,8 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
 
           <div className="relative lg:h-[600px] w-full">
             {/* Abstract Dashboard UI Composition */}
-            <div className="relative z-10 bg-[#121212] border border-white/10 rounded-2xl p-2 shadow-2xl shadow-gold-500/10 rotate-y-12 transform transition-transform hover:scale-[1.02] duration-500">
-              <div className="absolute inset-0 bg-gradient-to-tr from-gold-500/5 to-transparent rounded-2xl pointer-events-none"></div>
+            <div className="relative z-10 bg-[#121212] border border-white/10 rounded-2xl p-2 shadow-2xl shadow-primary-500/10 rotate-y-12 transform transition-transform hover:scale-[1.02] duration-500">
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary-500/5 to-transparent rounded-2xl pointer-events-none"></div>
               {/* Header Mock */}
               <div className="h-12 border-b border-white/5 flex items-center px-4 gap-4">
                 <div className="flex gap-2">
@@ -146,7 +146,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                 <div className="space-y-4">
                   <div className="h-32 bg-gold-500/10 rounded-xl border border-gold-500/20 p-4 relative overflow-hidden">
                     <BarChart3
-                      className="text-gold-500 absolute bottom-4 right-4"
+                      className="text-primary-500 absolute bottom-4 right-4"
                       size={48}
                     />
                     <div className="h-4 w-12 bg-gold-500/20 rounded mb-2"></div>
@@ -203,7 +203,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               <p className="text-3xl lg:text-4xl font-bold text-white mb-1">
                 {stat.value}
               </p>
-              <p className="text-sm text-gold-500 font-bold tracking-wider uppercase">
+              <p className="text-sm text-primary-500 font-bold tracking-wider uppercase">
                 {stat.label}
               </p>
             </div>
@@ -244,7 +244,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               key={i}
               className="bg-neutral-900/50 border border-white/10 p-8 rounded-2xl hover:bg-neutral-800/50 hover:border-gold-500/30 transition-all group"
             >
-              <div className="w-14 h-14 bg-neutral-800 rounded-xl flex items-center justify-center text-white mb-6 group-hover:bg-gold-500 group-hover:text-black transition-colors">
+              <div className="w-14 h-14 bg-neutral-800 rounded-xl flex items-center justify-center text-white mb-6 group-hover:bg-primary-500 group-hover:text-black transition-colors">
                 <feature.icon size={28} />
               </div>
               <h4 className="text-xl font-bold text-white mb-3">
@@ -266,7 +266,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               className="bg-white/20 backdrop-blur-sm   p-4 cursor-pointer"
             > */}
               <div className="space-y-8 relative">
-                <div className="absolute -top-6 -right-6 w-50 h-50  bg-gold-500 rounded-full opacity-50 blur-xl"></div>
+                <div className="absolute -top-6 -right-6 w-50 h-50  bg-primary-500 rounded-full opacity-50 blur-xl"></div>
 
                 <h3 className="text-3xl font-bold text-white">
                   Seamless Operations
@@ -294,7 +294,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                   ].map((item, i) => (
                     <div key={i} className="flex gap-4">
                       <div className="mt-1">
-                        <ShieldCheck className="text-gold-500" size={20} />
+                        <ShieldCheck className="text-primary-500" size={20} />
                       </div>
                       <div>
                         <h5 className="font-bold text-white">{item.title}</h5>
@@ -355,7 +355,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               key={i}
               className="bg-neutral-900/40 p-8 rounded-2xl border border-white/5"
             >
-              <div className="flex gap-1 text-gold-500 mb-4">
+              <div className="flex gap-1 text-primary-500 mb-4">
                 {[1, 2, 3, 4, 5].map((s) => (
                   <Star key={s} size={16} fill="currentColor" />
                 ))}
@@ -404,7 +404,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
           <div className="grid md:grid-cols-4 gap-12 text-sm text-neutral-400 border-b border-white/10 pb-12 mb-12">
             <div className="col-span-1 md:col-span-1">
               <div className="text-2xl font-bold text-white mb-4">
-                BHAR<span className="text-gold-500">PLATE</span>
+                BHAR<span className="text-primary-500">PLATE</span>
               </div>
               <p>Precision management for the modern dining experience.</p>
             </div>
@@ -412,17 +412,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               <h4 className="font-bold text-white mb-4">Product</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     Features
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     Pricing
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     Hardware
                   </a>
                 </li>
@@ -432,17 +432,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               <h4 className="font-bold text-white mb-4">Company</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     Careers
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     Contact
                   </a>
                 </li>
@@ -452,12 +452,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
               <h4 className="font-bold text-white mb-4">Legal</h4>
               <ul className="space-y-2">
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-gold-500">
+                  <a href="#" className="hover:text-primary-500">
                     Terms of Service
                   </a>
                 </li>
@@ -502,7 +502,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
                   <button
                     key={role}
                     onClick={() => onLogin(role)}
-                    className="px-4 py-4 bg-neutral-800 hover:bg-gold-500 hover:text-black text-neutral-300 rounded-xl text-sm font-bold transition-all border border-white/5 hover:border-gold-500"
+                    className="px-4 py-4 bg-neutral-800 hover:bg-primary-500 hover:text-black text-neutral-300 rounded-xl text-sm font-bold transition-all border border-white/5 hover:border-primary-500"
                   >
                     {role === UserRole.WAITER ? "Captain" : role}
                   </button>

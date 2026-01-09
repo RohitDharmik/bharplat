@@ -107,12 +107,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout, cu
 
       {/* Sidebar */}
       <aside className={`
-        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-neutral-50 dark:bg-[#121212] border-r border-neutral-200 dark:border-gold-600/20 
+        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-neutral-50 dark:bg-[#121212] border-r border-neutral-200 dark:border-primary-600/20
         transform transition-transform duration-300 ease-in-out
         ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
         <div className="h-full flex flex-col">
-          <div className="p-6 border-b border-neutral-200 dark:border-gold-600/10 flex items-center justify-between">
+          <div className="p-6 border-b border-neutral-200 dark:border-primary-600/10 flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold bg-gradient-to-r from-gold-500 to-gold-600 bg-clip-text text-transparent">
                 BharPlate
@@ -126,7 +126,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout, cu
 
           <div className="flex-1 py-6 space-y-1 px-3 overflow-y-auto custom-scrollbar">
             <div className="mb-6 px-3">
-              <div className="p-4 bg-white dark:bg-gradient-to-br dark:from-neutral-800 dark:to-neutral-900 rounded-xl border border-neutral-200 dark:border-white/5 shadow-sm dark:shadow-none">
+              <div className="p-4 bg-white dark:bg-gradient-to-br dark:from-neutral-800 dark:to-neutral-900 rounded-xl border border-neutral-200 dark:border-primary-600/10 shadow-sm dark:shadow-none">
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Logged in as</p>
                 <p className="font-semibold text-gold-600 dark:text-gold-400">{userRole === 'Waiter' ? 'Captain' : userRole}</p>
               </div>
@@ -141,9 +141,9 @@ export const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout, cu
                 }}
                 className={`
                   w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200
-                  ${currentPage === item 
-                    ? 'bg-gold-500/10 text-gold-600 dark:text-gold-400 border border-gold-500/20 shadow-sm' 
-                    : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'}
+                  ${currentPage === item
+                   ? 'bg-primary-500/10 text-primary-600 dark:text-primary-400 border border-primary-500/20 shadow-sm'
+                   : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5'}
                 `}
               >
                 {getIcon(item)}
@@ -173,18 +173,18 @@ export const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout, cu
           </button>
           
           <div className="flex items-center space-x-4 ml-auto">
-             <button 
+             <button
               onClick={toggleTheme}
-              className="p-2 text-neutral-500 dark:text-neutral-400 hover:text-gold-500 dark:hover:text-gold-400 transition-colors"
+              className="p-2 text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
             >
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
-            <button className="relative p-2 text-neutral-500 dark:text-neutral-400 hover:text-gold-500 dark:hover:text-gold-400 transition-colors">
+            <button className="relative p-2 text-neutral-500 dark:text-neutral-400 hover:text-primary-500 dark:hover:text-primary-400 transition-colors">
               <Bell size={20} />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
             </button>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-gold-400 to-gold-600 p-[1px]">
-              <div className="w-full h-full rounded-full bg-white dark:bg-black flex items-center justify-center text-xs font-bold text-gold-600 dark:text-gold-500">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-primary-400 to-primary-600 p-[1px]">
+              <div className="w-full h-full rounded-full bg-white dark:bg-black flex items-center justify-center text-xs font-bold text-primary-600 dark:text-primary-500">
                 {userRole[0]}
               </div>
             </div>
@@ -200,7 +200,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, userRole, onLogout, cu
         
         {/* Background decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0 overflow-hidden opacity-50 dark:opacity-100">
-            <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-gold-600/5 blur-[120px]"></div>
+            <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-primary-600/5 blur-[120px]"></div>
             <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-blue-900/5 blur-[120px]"></div>
         </div>
       </main>
