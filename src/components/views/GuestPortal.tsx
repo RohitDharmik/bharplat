@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { useAppStore } from "../../store/useAppStore";
 import { GuestTableSelection } from "./components/GuestTableSelection";
-import { GuestMenu } from "./components/GuestMenu";
+import  GuestMenu  from "./components/GuestMenu";
 import { GuestBill } from "./components/GuestBill";
 import { LoadingSpinner } from "./components/LoadingSpinner";
 import { SuspenseWrapper } from "../ui/SuspenseWrapper";

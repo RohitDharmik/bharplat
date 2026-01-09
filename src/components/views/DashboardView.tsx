@@ -4,7 +4,7 @@ import { useAppStore } from '../../store/useAppStore';
 import { useApi } from '../../hooks/useApi';
 import { StatCard, RevenueChart, OccupancyChart } from '../ui/DashboardWidgets';
 import { ShoppingBag, Users, Activity, IndianRupee } from 'lucide-react';
-import { SuperAdminDashboard } from './SuperAdminDashboard';
+import  SuperAdminDashboard  from './SuperAdminDashboard';
 import { ResponsiveContainer, ResponsiveGrid } from '../ui/ResponsiveGrid';
 import { SuspenseWrapper } from '../ui/SuspenseWrapper';
 

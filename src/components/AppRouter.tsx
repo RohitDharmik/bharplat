@@ -5,7 +5,7 @@ import { UserRole, Table, OrderStatus, TableStatus } from "../types";
 import { useAppStore } from "../store/useAppStore";
 import { useSuperAdmin } from "../hooks/useSuperAdmin";
 import { GuestTableSelection } from "./views/components/GuestTableSelection";
-import { GuestMenu } from "./views/components/GuestMenu";
+import  GuestMenu  from "./views/components/GuestMenu";
 import { GuestBill } from "./views/components/GuestBill";
 import { LoadingSpinner } from "./views/components/LoadingSpinner";
 

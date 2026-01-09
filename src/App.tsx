@@ -39,17 +39,17 @@ const App = () => {
   }, []);
 
   // Register Service Worker
-  useEffect(() => {
-    if ('serviceWorker' in navigator && import.meta.env.MODE === 'production') {
-      navigator.serviceWorker.register('/sw.js')
-        .then((registration) => {
-          console.log('SW registered: ', registration);
-        })
-        .catch((registrationError) => {
-          console.log('SW registration failed: ', registrationError);
-        });
-    }
-  }, []);
+  // useEffect(() => {
+  //   if ('serviceWorker' in navigator && import.meta.env.MODE === 'production') {
+  //     navigator.serviceWorker.register('/sw.js')
+  //       .then((registration) => {
+  //         console.log('SW registered: ', registration);
+  //       })
+  //       .catch((registrationError) => {
+  //         console.log('SW registration failed: ', registrationError);
+  //       });
+  //   }
+  // }, []);
 
   // Effects
   useEffect(() => {

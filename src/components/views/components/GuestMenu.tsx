@@ -16,7 +16,7 @@ const scrollToMenuArea = () => {
   window.scrollTo({ top: 140, behavior: "smooth" });
 };
 
-export const GuestMenu: React.FC = () => {
+  const GuestMenu: React.FC = () => {
   const { menu, placeOrder, guestTableId, tables } = useAppStore();
   const [cart, setCart] = useState<OrderItem[]>([]);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -199,3 +199,4 @@ export const GuestMenu: React.FC = () => {
     </ResponsiveContainer>
   );
 };
+export default GuestMenu;

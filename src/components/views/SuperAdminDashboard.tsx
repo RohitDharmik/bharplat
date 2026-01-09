@@ -34,15 +34,15 @@ interface SuperAdminDashboardProps {
       <h3 className="text-xl font-bold text-neutral-400 uppercase tracking-wide">Super Admin Governance</h3>
 
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-8 gap-6">
-        <StatCard title="Total Admins" value={totalAdmins.toString()} trend="+2" icon={Users} />
-        <StatCard title="Active Admins" value={activeAdmins.toString()} trend="+1" icon={UserCheck} />
-        <StatCard title="Inactive Admins" value={inactiveAdmins.toString()} trend="0" icon={UserX} />
-        <StatCard title="Recent Changes" value={recentLogs.length.toString()} trend="+3" icon={Shield} />
+        <StatCard title="Total Admins" value={totalAdmins.toString()} trend="+2" icon={<Users size={24} />} />
+        <StatCard title="Active Admins" value={activeAdmins.toString()} trend="+1" icon={<UserCheck size={24} />} />
+        <StatCard title="Inactive Admins" value={inactiveAdmins.toString()} trend="0" icon={<UserX size={24} />} />
+        <StatCard title="Recent Changes" value={recentLogs.length.toString()} trend="+3" icon={<Shield size={24} />} />
 
-        <StatCard title="Total Tickets" value={totalTickets.toString()} trend="+5" icon={MessageSquare} />
-        <StatCard title="Open Tickets" value={openTickets.toString()} trend="+2" icon={AlertCircle} />
-        <StatCard title="Resolved Tickets" value={resolvedTickets.toString()} trend="+3" icon={CheckCircle} />
-        <StatCard title="Active Subscriptions" value={activeSubscriptions.toString()} trend="+1" icon={CreditCard} />
+        <StatCard title="Total Tickets" value={totalTickets.toString()} trend="+5" icon={<MessageSquare size={24} />} />
+        <StatCard title="Open Tickets" value={openTickets.toString()} trend="+2" icon={<AlertCircle size={24} />} />
+        <StatCard title="Resolved Tickets" value={resolvedTickets.toString()} trend="+3" icon={<CheckCircle size={24} />} />
+        <StatCard title="Active Subscriptions" value={activeSubscriptions.toString()} trend="+1" icon={<CreditCard size={24} />} />
       </div>
 
       <div className="bg-neutral-900/60 backdrop-blur-md border border-white/5 rounded-xl p-6">
