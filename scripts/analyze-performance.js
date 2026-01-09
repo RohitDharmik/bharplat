@@ -5,8 +5,11 @@
  * Analyzes bundle size, performance metrics, and provides optimization recommendations
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 console.log('🚀 BharPlate Performance Analysis');
 console.log('================================\n');
