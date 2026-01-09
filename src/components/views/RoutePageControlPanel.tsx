@@ -12,7 +12,7 @@ interface RoutePageControlPanelProps {
   onRemovePage: (page: PageAuthority) => void;
 }
 
-export const RoutePageControlPanel: React.FC<RoutePageControlPanelProps> = ({
+  const RoutePageControlPanel: React.FC<RoutePageControlPanelProps> = ({
   admins,
   selectedAdminId,
   onSelectAdmin,
@@ -127,3 +127,4 @@ export const RoutePageControlPanel: React.FC<RoutePageControlPanelProps> = ({
     </div>
   );
 };
+export default RoutePageControlPanel;

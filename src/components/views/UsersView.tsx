@@ -20,7 +20,7 @@ interface UsersViewProps {
   currentUserRole?: UserRole;
 }
 
-export const UsersView: React.FC<UsersViewProps> = ({ currentUserRole }) => {
+  const UsersView: React.FC<UsersViewProps> = ({ currentUserRole }) => {
   const { users, addUser, isLoading } = useAppStore();
   const { getUsers, createUser: apiCreateUser } = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -345,3 +345,4 @@ export const UsersView: React.FC<UsersViewProps> = ({ currentUserRole }) => {
     </div>
   );
 };
+export default UsersView;

@@ -1,30 +1,46 @@
-import React, { useState } from 'react';
-import { Table, TableStatus, Area } from '../../types';
-import { useAppStore } from '../../store/useAppStore';
-import { Plus, Edit, Trash2, Users, CheckCircle, XCircle } from 'lucide-react';
-import { Modal, Form, Input, Select, Button, Switch, message, Table as AntTable, Tag } from 'antd';
+import React, { useState } from "react";
+import { Table, TableStatus, Area } from "../../types";
+import { useAppStore } from "../../store/useAppStore";
+import { Plus, Edit, Trash2, Users, CheckCircle, XCircle } from "lucide-react";
+import {
+  Modal,
+  Form,
+  Input,
+  Select,
+  Button,
+  Switch,
+  message,
+  Table as AntTable,
+  Tag,
+} from "antd";
 
 const { Option } = Select;
 
-export const TableMaster: React.FC = () => {
-  const { tables, areas, createTable, updateTable, deleteTable, isLoading } = useAppStore();
+const TableMaster: React.FC = () => {
+  const { tables, areas, createTable, updateTable, deleteTable, isLoading } =
+    useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingTable, setEditingTable] = useState<Table | null>(null);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
 
   const getAreaName = (areaId: string) => {
-    const area = areas.find(a => a.id === areaId);
-    return area?.name || 'Unknown';
+    const area = areas.find((a) => a.id === areaId);
+    return area?.name || "Unknown";
   };
 
   const getStatusColor = (status: TableStatus) => {
     switch (status) {
-      case TableStatus.AVAILABLE: return 'success';
-      case TableStatus.OCCUPIED: return 'error';
-      case TableStatus.RESERVED: return 'warning';
-      case TableStatus.DIRTY: return 'default';
-      default: return 'default';
+      case TableStatus.AVAILABLE:
+        return "success";
+      case TableStatus.OCCUPIED:
+        return "error";
+      case TableStatus.RESERVED:
+        return "warning";
+      case TableStatus.DIRTY:
+        return "default";
+      default:
+        return "default";
     }
   };
 
@@ -35,13 +51,13 @@ export const TableMaster: React.FC = () => {
         name: values.name,
         capacity: values.capacity,
         status: TableStatus.AVAILABLE,
-        areaId: values.areaId
+        areaId: values.areaId,
       });
-      messageApi.success('Table created successfully');
+      messageApi.success("Table created successfully");
       setIsModalOpen(false);
       form.resetFields();
     } catch (error) {
-      console.error('Failed to create table:', error);
+      console.error("Failed to create table:", error);
     }
   };
 
@@ -52,23 +68,23 @@ export const TableMaster: React.FC = () => {
       await updateTable(editingTable.id, {
         name: values.name,
         capacity: values.capacity,
-        areaId: values.areaId
+        areaId: values.areaId,
       });
-      messageApi.success('Table updated successfully');
+      messageApi.success("Table updated successfully");
       setIsModalOpen(false);
       setEditingTable(null);
       form.resetFields();
     } catch (error) {
-      console.error('Failed to update table:', error);
+      console.error("Failed to update table:", error);
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
       await deleteTable(id);
-      messageApi.success('Table deleted successfully');
+      messageApi.success("Table deleted successfully");
     } catch (error) {
-      console.error('Failed to delete table:', error);
+      console.error("Failed to delete table:", error);
     }
   };
 
@@ -77,7 +93,7 @@ export const TableMaster: React.FC = () => {
     form.setFieldsValue({
       name: table.name,
       capacity: table.capacity,
-      areaId: table.areaId
+      areaId: table.areaId,
     });
     setIsModalOpen(true);
   };
@@ -90,45 +106,41 @@ export const TableMaster: React.FC = () => {
 
   const columns = [
     {
-      title: 'Table Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: "Table Name",
+      dataIndex: "name",
+      key: "name",
       render: (text: string) => (
         <span className="font-medium text-white">{text}</span>
-      )
+      ),
     },
     {
-      title: 'Capacity',
-      dataIndex: 'capacity',
-      key: 'capacity',
+      title: "Capacity",
+      dataIndex: "capacity",
+      key: "capacity",
       render: (capacity: number) => (
         <div className="flex items-center gap-1">
           <Users size={14} className="text-gold-500" />
           <span>{capacity} seats</span>
         </div>
-      )
+      ),
     },
     {
-      title: 'Area',
-      dataIndex: 'areaId',
-      key: 'areaId',
-      render: (areaId: string) => (
-        <Tag color="blue">{getAreaName(areaId)}</Tag>
-      )
+      title: "Area",
+      dataIndex: "areaId",
+      key: "areaId",
+      render: (areaId: string) => <Tag color="blue">{getAreaName(areaId)}</Tag>,
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
       render: (status: TableStatus) => (
-        <Tag color={getStatusColor(status)}>
-          {status}
-        </Tag>
-      )
+        <Tag color={getStatusColor(status)}>{status}</Tag>
+      ),
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Actions",
+      key: "actions",
       render: (_: any, record: Table) => (
         <div className="flex gap-2">
           <Button
@@ -143,8 +155,8 @@ export const TableMaster: React.FC = () => {
             onClick={() => handleDelete(record.id)}
           />
         </div>
-      )
-    }
+      ),
+    },
   ];
 
   return (
@@ -152,8 +164,12 @@ export const TableMaster: React.FC = () => {
       {contextHolder}
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">Table Master</h2>
-          <p className="text-neutral-500 dark:text-neutral-400 text-sm">Manage restaurant tables</p>
+          <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">
+            Table Master
+          </h2>
+          <p className="text-neutral-500 dark:text-neutral-400 text-sm">
+            Manage restaurant tables
+          </p>
         </div>
         <Button
           type="primary"
@@ -176,7 +192,7 @@ export const TableMaster: React.FC = () => {
       </div>
 
       <Modal
-        title={editingTable ? 'Edit Table' : 'Add New Table'}
+        title={editingTable ? "Edit Table" : "Add New Table"}
         open={isModalOpen}
         onOk={editingTable ? handleUpdate : handleCreate}
         onCancel={() => {
@@ -184,13 +200,21 @@ export const TableMaster: React.FC = () => {
           setEditingTable(null);
           form.resetFields();
         }}
-        okText={editingTable ? 'Update' : 'Create'}
+        okText={editingTable ? "Update" : "Create"}
       >
         <Form form={form} layout="vertical">
-          <Form.Item name="name" label="Table Name" rules={[{ required: true }]}>
+          <Form.Item
+            name="name"
+            label="Table Name"
+            rules={[{ required: true }]}
+          >
             <Input placeholder="e.g., Table 1, Table 2" />
           </Form.Item>
-          <Form.Item name="capacity" label="Capacity" rules={[{ required: true }]}>
+          <Form.Item
+            name="capacity"
+            label="Capacity"
+            rules={[{ required: true }]}
+          >
             <Select placeholder="Select capacity">
               <Option value={2}>2 Seats</Option>
               <Option value={4}>4 Seats</Option>
@@ -201,7 +225,7 @@ export const TableMaster: React.FC = () => {
           </Form.Item>
           <Form.Item name="areaId" label="Area" rules={[{ required: true }]}>
             <Select placeholder="Select area">
-              {areas.map(area => (
+              {areas.map((area) => (
                 <Option key={area.id} value={area.id}>
                   {area.name}
                 </Option>
@@ -213,3 +237,4 @@ export const TableMaster: React.FC = () => {
     </div>
   );
 };
+export default TableMaster;

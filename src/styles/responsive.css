@@ -1,0 +1,320 @@
+/* Responsive Design Utilities */
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive Typography */
+.text-responsive {
+  font-size: clamp(0.875rem, 1.5vw, 1.125rem);
+}
+
+.text-responsive-lg {
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+}
+
+.text-responsive-xl {
+  font-size: clamp(1.25rem, 3.5vw, 2rem);
+}
+
+/* Responsive Spacing */
+.spacing-responsive {
+  padding: clamp(1rem, 3vw, 2rem);
+  margin: clamp(0.5rem, 2vw, 1rem);
+}
+
+/* Responsive Container Max Widths */
+.container-responsive {
+  max-width: 100%;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container-responsive {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-responsive {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-responsive {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container-responsive {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container-responsive {
+    max-width: 1536px;
+  }
+}
+
+/* Responsive Grid Classes */
+.grid-responsive-1 {
+  grid-template-columns: 1fr;
+}
+
+.grid-responsive-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-responsive-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-responsive-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 639px) {
+  .grid-responsive-2,
+  .grid-responsive-3,
+  .grid-responsive-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .grid-responsive-3,
+  .grid-responsive-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .grid-responsive-4 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Responsive Flex Classes */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-responsive-row {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+  }
+}
+
+/* Responsive Image Classes */
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Responsive Button Classes */
+.btn-responsive {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 768px) {
+  .btn-responsive {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Responsive Modal Classes */
+.modal-responsive {
+  max-width: 95%;
+}
+
+@media (min-width: 768px) {
+  .modal-responsive {
+    max-width: 500px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .modal-responsive {
+    max-width: 600px;
+  }
+}
+
+/* Responsive Card Classes */
+.card-responsive {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .card-responsive {
+    padding: 1.5rem;
+  }
+}
+
+/* Responsive Animation Classes */
+.animate-in {
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fade-in {
+  animation-name: fadeIn;
+}
+
+.slide-in-from-bottom {
+  animation-name: slideInFromBottom;
+}
+
+.zoom-in {
+  animation-name: zoomIn;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Responsive Focus Classes */
+.focus-responsive:focus {
+  outline: 2px solid #d9a744;
+  outline-offset: 2px;
+}
+
+/* Responsive Shadow Classes */
+.shadow-responsive {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-responsive-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive Border Classes */
+.border-responsive {
+  border-width: 1px;
+}
+
+.border-responsive-2 {
+  border-width: 2px;
+}
+
+/* Responsive Transition Classes */
+.transition-responsive {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Responsive Overflow Classes */
+.overflow-responsive {
+  overflow: auto;
+}
+
+.overflow-responsive-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.overflow-responsive-y {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Responsive Display Classes */
+.hidden-mobile {
+  display: none;
+}
+
+.hidden-desktop {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .hidden-mobile {
+    display: block;
+  }
+  .hidden-desktop {
+    display: none;
+  }
+}
+
+/* Responsive Height Classes */
+.h-responsive {
+  height: auto;
+  min-height: 400px;
+}
+
+@media (min-width: 768px) {
+  .h-responsive {
+    height: 600px;
+  }
+}
+
+/* Responsive Width Classes */
+.w-responsive {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .w-responsive {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .w-responsive {
+    width: 33.33%;
+  }
+}

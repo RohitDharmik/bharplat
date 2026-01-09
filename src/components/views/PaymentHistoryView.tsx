@@ -9,7 +9,7 @@ interface PaymentHistoryViewProps {
   title?: string;
 }
 
-export const PaymentHistoryView: React.FC<PaymentHistoryViewProps> = ({ orders, tables, title = 'Payment History' }) => {
+  const PaymentHistoryView: React.FC<PaymentHistoryViewProps> = ({ orders, tables, title = 'Payment History' }) => {
   const [searchText, setSearchText] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -171,3 +171,4 @@ export const PaymentHistoryView: React.FC<PaymentHistoryViewProps> = ({ orders, 
     </div>
   );
 };
+export default PaymentHistoryView;

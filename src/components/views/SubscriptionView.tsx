@@ -11,7 +11,7 @@ interface SubscriptionViewProps {
   userRole: UserRole;
 }
 
-export const SubscriptionView: React.FC<SubscriptionViewProps> = ({ userRole }) => {
+  const SubscriptionView: React.FC<SubscriptionViewProps> = ({ userRole }) => {
   const { outletSubscriptions, createSubscription, updateSubscription, cancelSubscription } = useAppStore();
   const permissions = usePermissions(userRole);
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
@@ -193,3 +193,4 @@ export const SubscriptionView: React.FC<SubscriptionViewProps> = ({ userRole }) 
     </div>
   );
 };
+export default SubscriptionView;

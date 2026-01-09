@@ -17,7 +17,7 @@ const getStatusColor = (status: TableStatus) => {
   }
 };
 
-export const TableMap: React.FC<TableMapProps> = ({ tables, onTableClick }) => {
+  const TableMap: React.FC<TableMapProps> = ({ tables, onTableClick }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {tables.map((table) => (
@@ -55,3 +55,4 @@ export const TableMap: React.FC<TableMapProps> = ({ tables, onTableClick }) => {
     </div>
   );
 };
+export default TableMap;

@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+
+# Block access to admin and sensitive areas
+Disallow: /admin
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow search engines to crawl main content
+Allow: /menu
+Allow: /
+
+# Sitemap
+Sitemap: https://bharplate.com/sitemap.xml

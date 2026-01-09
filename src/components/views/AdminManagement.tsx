@@ -10,7 +10,7 @@ interface AdminManagementProps {
   onNavigateToConfig: (adminId: string) => void;
 }
 
-export const AdminManagement: React.FC<AdminManagementProps> = ({
+  const AdminManagement: React.FC<AdminManagementProps> = ({
   admins,
   onCreateAdmin,
   onUpdateAdmin,
@@ -224,3 +224,4 @@ export const AdminManagement: React.FC<AdminManagementProps> = ({
     </div>
   );
 };
+export default AdminManagement;

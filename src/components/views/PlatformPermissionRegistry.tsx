@@ -5,7 +5,7 @@ interface PlatformPermissionRegistryProps {
   registry: RegistryType;
 }
 
-export const PlatformPermissionRegistry: React.FC<PlatformPermissionRegistryProps> = ({ registry }) => {
+  const PlatformPermissionRegistry: React.FC<PlatformPermissionRegistryProps> = ({ registry }) => {
   return (
     <div className="space-y-6">
       <h3 className="text-xl font-bold text-neutral-400 uppercase tracking-wide">Platform Permission Registry</h3>
@@ -84,3 +84,4 @@ export const PlatformPermissionRegistry: React.FC<PlatformPermissionRegistryProp
     </div>
   );
 };
+export default PlatformPermissionRegistry;

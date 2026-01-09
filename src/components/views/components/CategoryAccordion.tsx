@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Collapse } from 'antd';
 import { MenuItem } from '../../../types';
 import { MenuItemCard } from './MenuItemCard';
 import { CategoryHeader } from './CategoryHeader';
+import { useGroupedData } from '../../../hooks/useMemoizedData';
 import './GuestPortal.scss';
 
 interface CategoryAccordionProps {
@@ -22,6 +23,19 @@ export const CategoryAccordion: React.FC<CategoryAccordionProps> = ({
 }) => {
     const { Panel } = Collapse;
 
+    // Memoize grouped menu data for performance
+    const groupedMenu = useGroupedData(
+        menu,
+        (item) => item.category,
+        [menu]
+    );
+
+    // Filter categories to exclude 'All'
+    const displayCategories = useMemo(() => 
+        categories.filter(cat => cat !== 'All'), 
+        [categories]
+    );
+
     return (
         <div className="max-h-[100vh] overflow-y-auto pr-2 custom-scrollbar">
             <Collapse
@@ -39,8 +53,8 @@ export const CategoryAccordion: React.FC<CategoryAccordionProps> = ({
                 expandIcon={() => null} // Hide the expand icon
                 ghost // Remove default panel styling
             >
-                {categories.filter(cat => cat !== 'All').map(category => {
-                    const categoryItems = menu.filter(item => item.category === category);
+                {displayCategories.map(category => {
+                    const categoryItems = groupedMenu[category] || [];
                     
                     if (categoryItems.length === 0) return null;
 
@@ -65,8 +79,8 @@ export const CategoryAccordion: React.FC<CategoryAccordionProps> = ({
                                     : 'bg-white dark:bg-neutral-900/60 hover:bg-neutral-50 dark:hover:bg-neutral-800/60'
                             }`}
                         >
-                            {/* Category Items Row */}
-                            <div className="grid grid-cols-1 gap-1 p-2">
+                            {/* Category Items Grid */}
+                            <div className="grid grid-cols-1 gap-2 p-2">
                                 {categoryItems.map(item => (
                                     <MenuItemCard key={item.id} item={item} onAddToCart={onAddToCart} />
                                 ))}

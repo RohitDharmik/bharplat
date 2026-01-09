@@ -9,7 +9,7 @@ interface SuperAdminDashboardProps {
   auditLogs: any[]; // from types
 }
 
-export const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ admins, auditLogs }) => {
+  const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ admins, auditLogs }) => {
   const { tickets, outletSubscriptions } = useAppStore();
 
   const totalAdmins = admins.length;
@@ -181,3 +181,4 @@ export const SuperAdminDashboard: React.FC<SuperAdminDashboardProps> = ({ admins
     </div>
   );
 };
+export default SuperAdminDashboard;

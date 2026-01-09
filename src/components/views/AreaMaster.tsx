@@ -4,7 +4,7 @@ import { useAppStore } from '../../store/useAppStore';
 import { Plus, Edit, Trash2, MapPin, CheckCircle, XCircle } from 'lucide-react';
 import { Modal, Form, Input, Button, Switch, message, Table } from 'antd';
 
-export const AreaMaster: React.FC = () => {
+  const AreaMaster: React.FC = () => {
   const { areas, createArea, updateArea, deleteArea, isLoading } = useAppStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingArea, setEditingArea] = useState<Area | null>(null);
@@ -175,3 +175,4 @@ export const AreaMaster: React.FC = () => {
     </div>
   );
 };
+export default  AreaMaster

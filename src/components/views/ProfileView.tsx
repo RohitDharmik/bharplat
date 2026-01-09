@@ -2,7 +2,7 @@ import React from 'react';
 import { User } from 'lucide-react';
 import { Button, Input, Form, Divider } from 'antd';
 
-export const ProfileView: React.FC = () => {
+  const ProfileView: React.FC = () => {
     return (
         <div className="max-w-3xl mx-auto space-y-6">
             <h2 className="text-2xl font-bold text-neutral-900 dark:text-white">My Profile</h2>
@@ -55,3 +55,4 @@ export const ProfileView: React.FC = () => {
         </div>
     );
 };
+export default ProfileView;

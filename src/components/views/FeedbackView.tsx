@@ -2,7 +2,7 @@ import React from 'react';
 import { MOCK_FEEDBACK } from '../../constants';
 import { Star, MessageSquare } from 'lucide-react';
 
-export const FeedbackView: React.FC = () => {
+  const FeedbackView: React.FC = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-white">Customer Feedback</h2>
@@ -43,3 +43,4 @@ export const FeedbackView: React.FC = () => {
     </div>
   );
 };
+export default FeedbackView;

@@ -12,7 +12,7 @@ interface OrderBillingViewProps {
   initialTableId?: string;
 }
 
-export const OrderBillingView: React.FC<OrderBillingViewProps> = ({
+  const OrderBillingView: React.FC<OrderBillingViewProps> = ({
   initialOrderId,
   initialTableId
 }) => {
@@ -789,3 +789,4 @@ Thank you for dining with us!
     </div>
   );
 };
+export default OrderBillingView;

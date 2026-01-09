@@ -4,7 +4,7 @@ import { useAppStore } from '../../store/useAppStore';
 import { Printer, Download, MapPin } from 'lucide-react';
 import { Button } from 'antd';
 
-export const QRCodeManagerView: React.FC = () => {
+  const QRCodeManagerView: React.FC = () => {
     const { tables } = useAppStore();
 
     const handlePrint = () => {
@@ -60,3 +60,4 @@ export const QRCodeManagerView: React.FC = () => {
         </div>
     );
 };
+export default QRCodeManagerView;

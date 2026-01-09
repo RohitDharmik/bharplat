@@ -7,22 +7,26 @@ import { AdminTableModal } from './components/ui/AdminTableModal';
 import { UserRole, TableStatus, OrderStatus, Table } from './types';
 import { useAppStore } from './store/useAppStore';
 import { LoadingOutlined } from '@ant-design/icons';
+import { usePerformanceMonitor } from './hooks/usePerformanceMonitor';
 
 const App = () => {
+  // Performance monitoring
+  usePerformanceMonitor();
+
   // State
   const [userRole, setUserRole] = useState<UserRole | null>(null);
   const [currentPage, setCurrentPage] = useState('Dashboard');
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [selectedTableId, setSelectedTableId] = useState<string>('');
-  
+
   // Admin Table Modal State
   const [isAdminTableModalOpen, setIsAdminTableModalOpen] = useState(false);
   const [activeAdminTable, setActiveAdminTable] = useState<Table | null>(null);
 
   // Store Hooks
-  const { 
-    placeOrder, 
-    updateOrderStatus, 
+  const {
+    placeOrder,
+    updateOrderStatus,
     updateTableStatus,
     fetchInitialData,
     isLoading,
@@ -32,6 +36,19 @@ const App = () => {
   // Initial Data Fetch
   useEffect(() => {
     fetchInitialData();
+  }, []);
+
+  // Register Service Worker
+  useEffect(() => {
+    if ('serviceWorker' in navigator && import.meta.env.MODE === 'production') {
+      navigator.serviceWorker.register('/sw.js')
+        .then((registration) => {
+          console.log('SW registered: ', registration);
+        })
+        .catch((registrationError) => {
+          console.log('SW registration failed: ', registrationError);
+        });
+    }
   }, []);
 
   // Effects
@@ -66,7 +83,7 @@ const App = () => {
       }
       return;
     }
-    
+
     // For Admins/Managers/etc, open detailed modal
     setActiveAdminTable(table);
     setIsAdminTableModalOpen(true);
@@ -115,15 +132,15 @@ const App = () => {
         },
       }}
     >
-      <Layout 
-        userRole={userRole} 
+      <Layout
+        userRole={userRole}
         onLogout={() => setUserRole(null)}
         currentPage={currentPage}
         onNavigate={setCurrentPage}
         isDarkMode={isDarkMode}
         toggleTheme={() => setIsDarkMode(!isDarkMode)}
       >
-        <AppRouter 
+        <AppRouter
           currentPage={currentPage}
           userRole={userRole}
           selectedTableId={selectedTableId}
@@ -134,7 +151,7 @@ const App = () => {
         />
       </Layout>
 
-      <AdminTableModal 
+      <AdminTableModal
         table={activeAdminTable}
         isOpen={isAdminTableModalOpen}
         onClose={() => setIsAdminTableModalOpen(false)}

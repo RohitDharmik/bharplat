@@ -9,7 +9,7 @@ interface ActiveOrdersViewProps {
   tables: Table[];
 }
 
-export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tables }) => {
+  const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tables }) => {
   const { updateOrderNotes, updateOrderStatus } = useAppStore();
   const [filterStatus, setFilterStatus] = useState<string>('All');
   const [isNotesModalOpen, setIsNotesModalOpen] = useState(false);
@@ -191,3 +191,4 @@ export const ActiveOrdersView: React.FC<ActiveOrdersViewProps> = ({ orders, tabl
     </div>
   );
 };
+export default ActiveOrdersView;

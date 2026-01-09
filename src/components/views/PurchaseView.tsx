@@ -5,7 +5,7 @@ import { Plus, FileText, Calendar } from 'lucide-react';
 import { Table, Tag, Button, Modal, Form, Input, InputNumber, DatePicker, message } from 'antd';
 import dayjs from 'dayjs';
 
-export const PurchaseView: React.FC = () => {
+  const PurchaseView: React.FC = () => {
   const [purchases, setPurchases] = useState<Purchase[]>(MOCK_PURCHASES);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -142,3 +142,4 @@ export const PurchaseView: React.FC = () => {
     </div>
   );
 };
+export default PurchaseView;

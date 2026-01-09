@@ -7,7 +7,7 @@ import { Modal, Form, Input, InputNumber, Select, message, Button } from 'antd';
 
 const { Option } = Select;
 
-export const InventoryView: React.FC = () => {
+  const InventoryView: React.FC = () => {
   const { inventory, addInventoryItem, isLoading } = useAppStore();
   const { getInventory, createInventoryItem: apiCreateInventoryItem } = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -247,3 +247,4 @@ export const InventoryView: React.FC = () => {
     </div>
   );
 };
+export default InventoryView;

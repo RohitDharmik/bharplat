@@ -6,7 +6,7 @@ import { Modal, Form, Select, InputNumber, Button, message, List, Card } from 'a
 
 const { Option } = Select;
 
-export const RecipeView: React.FC = () => {
+  const RecipeView: React.FC = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
@@ -152,3 +152,4 @@ export const RecipeView: React.FC = () => {
     </div>
   );
 };
+export default RecipeView;

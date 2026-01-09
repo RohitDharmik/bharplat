@@ -7,7 +7,7 @@ interface AdminResponsibilityMatrixEditorProps {
   onBack: () => void;
 }
 
-export const AdminResponsibilityMatrixEditor: React.FC<AdminResponsibilityMatrixEditorProps> = ({
+  const AdminResponsibilityMatrixEditor: React.FC<AdminResponsibilityMatrixEditorProps> = ({
   admin,
   onUpdateMatrix,
   onBack
@@ -217,4 +217,4 @@ export const AdminResponsibilityMatrixEditor: React.FC<AdminResponsibilityMatrix
       </div>
     </div>
   );
-};
+};export default AdminResponsibilityMatrixEditor;

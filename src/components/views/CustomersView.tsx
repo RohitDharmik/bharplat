@@ -4,7 +4,7 @@ import { MOCK_CUSTOMERS } from '../../constants';
 import { Search, Plus, Mail, Phone, Calendar, User } from 'lucide-react';
 import { Table, Button, Modal, Form, Input, message, Tag } from 'antd';
 
-export const CustomersView: React.FC = () => {
+  const CustomersView: React.FC = () => {
     const [customers, setCustomers] = useState<Customer[]>(MOCK_CUSTOMERS);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
@@ -130,3 +130,4 @@ export const CustomersView: React.FC = () => {
         </div>
     );
 };
+export default CustomersView;

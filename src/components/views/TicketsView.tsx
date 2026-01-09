@@ -13,7 +13,7 @@ interface TicketsViewProps {
   userRole: UserRole;
 }
 
-export const TicketsView: React.FC<TicketsViewProps> = ({ userRole }) => {
+  const TicketsView: React.FC<TicketsViewProps> = ({ userRole }) => {
   const { tickets, createTicket, updateTicket, closeTicket } = useAppStore();
   const permissions = usePermissions(userRole);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -285,3 +285,4 @@ export const TicketsView: React.FC<TicketsViewProps> = ({ userRole }) => {
     </div>
   );
 };
+export default TicketsView;

@@ -10,7 +10,7 @@ interface KitchenDisplayProps {
   onUpdateStatus: (orderId: string, status: OrderStatus) => void;
 }
 
-export const KitchenDisplay: React.FC<KitchenDisplayProps> = ({ orders, onUpdateStatus }) => {
+  const KitchenDisplay: React.FC<KitchenDisplayProps> = ({ orders, onUpdateStatus }) => {
   const { tables } = useAppStore();
   const { getOrders, updateOrderStatus: apiUpdateOrderStatus } = useApi();
   const [now, setNow] = useState(new Date());
@@ -337,3 +337,4 @@ export const KitchenDisplay: React.FC<KitchenDisplayProps> = ({ orders, onUpdate
     </div>
   );
 };
+export default KitchenDisplay;

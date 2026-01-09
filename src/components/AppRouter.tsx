@@ -1,46 +1,47 @@
-import React, { useState } from "react";
+
+import React, { useState, Suspense, lazy } from "react";
 import QRCode from "react-qr-code";
 import { UserRole, Table, OrderStatus, TableStatus } from "../types";
-import { TableMap } from "./views/TableMap";
-import { KitchenDisplay } from "./views/KitchenDisplay";
-import { MenuManager } from "./views/MenuManager";
-import { UsersView } from "./views/UsersView";
-import { InventoryView } from "./views/InventoryView";
-import { ReservationsView } from "./views/ReservationsView";
-import { NewOrderView } from "./views/NewOrderView";
-import { OrderBillingView } from "./views/OrderBillingView";
-import { PaymentsView } from "./views/PaymentsView";
-import { PaymentHistoryView } from "./views/PaymentHistoryView";
-import { ActiveOrdersView } from "./views/ActiveOrdersView";
-import { SettingsView } from "./views/SettingsView";
-import { ReportsView } from "./views/ReportsView";
-import { FeedbackView } from "./views/FeedbackView";
-import { WaiterView } from "./views/WaiterView";
-// import { GuestTableSelection, GuestMenu, GuestBill } from "./views/GuestPortal";
-import { DashboardView } from "./views/DashboardView";
-import { TicketsView } from "./views/TicketsView";
-import { SubscriptionView } from "./views/SubscriptionView";
-import { RecipeView } from "./views/RecipeView";
-import { PurchaseView } from "./views/PurchaseView";
-import { CustomersView } from "./views/CustomersView";
-import { QRCodeManagerView } from "./views/QRCodeManagerView";
-import { ProfileView } from "./views/ProfileView";
-import { SuperAdminDashboard } from "./views/SuperAdminDashboard";
-import { AdminManagement } from "./views/AdminManagement";
-import {
-  AdminResponsibilityMatrixEditor as AdminResponsibilityConfig,
-  AdminResponsibilityMatrixEditor,
-} from "./views/AdminResponsibilityMatrixEditor";
-import { RoutePageControlPanel } from "./views/RoutePageControlPanel";
-import { PlatformPermissionRegistry } from "./views/PlatformPermissionRegistry";
-import { AuditLog } from "./views/AuditLog";
-import { AreaMaster } from "./views/AreaMaster";
-import { TableMaster } from "./views/TableMaster";
 import { useAppStore } from "../store/useAppStore";
 import { useSuperAdmin } from "../hooks/useSuperAdmin";
 import { GuestTableSelection } from "./views/components/GuestTableSelection";
 import { GuestMenu } from "./views/components/GuestMenu";
 import { GuestBill } from "./views/components/GuestBill";
+import { LoadingSpinner } from "./views/components/LoadingSpinner";
+
+// Lazy load all heavy components
+  
+const TableMap = lazy(() => import("./views/TableMap"));
+const KitchenDisplay = lazy(() => import("./views/KitchenDisplay"));
+const MenuManager = lazy(() => import("./views/MenuManager"));
+const UsersView = lazy(() => import("./views/UsersView"));
+const InventoryView = lazy(() => import("./views/InventoryView"));
+const ReservationsView = lazy(() => import("./views/ReservationsView"));
+const NewOrderView = lazy(() => import("./views/NewOrderView"));
+const OrderBillingView = lazy(() => import("./views/OrderBillingView"));
+const PaymentsView = lazy(() => import("./views/PaymentsView"));
+const PaymentHistoryView = lazy(() => import("./views/PaymentHistoryView"));
+const ActiveOrdersView = lazy(() => import("./views/ActiveOrdersView"));
+const SettingsView = lazy(() => import("./views/SettingsView"));
+const ReportsView = lazy(() => import("./views/ReportsView"));
+const FeedbackView = lazy(() => import("./views/FeedbackView"));
+const WaiterView = lazy(() => import("./views/WaiterView"));
+const DashboardView = lazy(() => import("./views/DashboardView"));
+const TicketsView = lazy(() => import("./views/TicketsView"));
+const SubscriptionView = lazy(() => import("./views/SubscriptionView"));
+const RecipeView = lazy(() => import("./views/RecipeView"));
+const PurchaseView = lazy(() => import("./views/PurchaseView"));
+const CustomersView = lazy(() => import("./views/CustomersView"));
+const QRCodeManagerView = lazy(() => import("./views/QRCodeManagerView"));
+const ProfileView = lazy(() => import("./views/ProfileView"));
+const SuperAdminDashboard = lazy(() => import("./views/SuperAdminDashboard"));
+const AdminManagement = lazy(() => import("./views/AdminManagement"));
+const AdminResponsibilityMatrixEditor = lazy(() => import("./views/AdminResponsibilityMatrixEditor"));
+const RoutePageControlPanel = lazy(() => import("./views/RoutePageControlPanel"));
+const PlatformPermissionRegistry = lazy(() => import("./views/PlatformPermissionRegistry"));
+const AuditLog = lazy(() => import("./views/AuditLog"));
+const AreaMaster = lazy(() => import("./views/AreaMaster"));
+const TableMaster = lazy(() => import("./views/TableMaster"));
 
 interface AppRouterProps {
   currentPage: string;
@@ -108,10 +109,12 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     switch (pageToShow) {
       case "Super Admin Dashboard":
         return (
-          <SuperAdminDashboard
-            admins={superAdminHook.admins}
-            auditLogs={superAdminHook.auditLogs}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <SuperAdminDashboard
+              admins={superAdminHook.admins}
+              auditLogs={superAdminHook.auditLogs}
+            />
+          </Suspense>
         );
 
       case "Admin Management":
@@ -120,23 +123,27 @@ export const AppRouter: React.FC<AppRouterProps> = ({
             (a) => a.id === selectedAdminId
           );
           return admin ? (
-            <AdminResponsibilityConfig
-              admin={admin}
-              onUpdateMatrix={superAdminHook.updateResponsibilityMatrix}
-              onBack={() => setSelectedAdminId(null)}
-            />
+            <Suspense fallback={<LoadingSpinner />}>
+              <AdminResponsibilityMatrixEditor
+                admin={admin}
+                onUpdateMatrix={superAdminHook.updateResponsibilityMatrix}
+                onBack={() => setSelectedAdminId(null)}
+              />
+            </Suspense>
           ) : (
             <div>Admin not found</div>
           );
         } else {
           return (
-            <AdminManagement
-              admins={superAdminHook.admins}
-              onCreateAdmin={superAdminHook.createAdmin}
-              onUpdateAdmin={superAdminHook.updateAdmin}
-              onDeleteAdmin={superAdminHook.deleteAdmin}
-              onNavigateToConfig={setSelectedAdminId}
-            />
+            <Suspense fallback={<LoadingSpinner />}>
+              <AdminManagement
+                admins={superAdminHook.admins}
+                onCreateAdmin={superAdminHook.createAdmin}
+                onUpdateAdmin={superAdminHook.updateAdmin}
+                onDeleteAdmin={superAdminHook.deleteAdmin}
+                onNavigateToConfig={setSelectedAdminId}
+              />
+            </Suspense>
           );
         }
 
@@ -144,11 +151,13 @@ export const AppRouter: React.FC<AppRouterProps> = ({
         // For simplicity, show editor for first admin or a selector
         const firstAdmin = superAdminHook.admins[0]; // In real app, have a selector
         return firstAdmin ? (
-          <AdminResponsibilityMatrixEditor
-            onBack={() => {}}
-            admin={firstAdmin}
-            onUpdateMatrix={superAdminHook.updateResponsibilityMatrix}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <AdminResponsibilityMatrixEditor
+              onBack={() => {}}
+              admin={firstAdmin}
+              onUpdateMatrix={superAdminHook.updateResponsibilityMatrix}
+            />
+          </Suspense>
         ) : (
           <div className="text-white">
             No admins to edit. Create an admin first.
@@ -159,40 +168,66 @@ export const AppRouter: React.FC<AppRouterProps> = ({
         const selectedAdmin = routeControlSelectedAdminId ? superAdminHook.admins.find(a => a.id === routeControlSelectedAdminId) : null;
         const enabledPagesForAdmin = selectedAdmin ? Object.keys(selectedAdmin.responsibilityMatrix.pageAuthority).filter(page => selectedAdmin.responsibilityMatrix.pageAuthority[page as any]) as any[] : [];
         return (
-          <RoutePageControlPanel
-            admins={superAdminHook.admins}
-            selectedAdminId={routeControlSelectedAdminId}
-            onSelectAdmin={setRouteControlSelectedAdminId}
-            availablePages={superAdminHook.availablePages}
-            enabledPages={enabledPagesForAdmin}
-            onTogglePage={handleRouteControlTogglePage}
-            onAddPage={superAdminHook.addPage}
-            onRemovePage={superAdminHook.removePage}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <RoutePageControlPanel
+              admins={superAdminHook.admins}
+              selectedAdminId={routeControlSelectedAdminId}
+              onSelectAdmin={setRouteControlSelectedAdminId}
+              availablePages={superAdminHook.availablePages}
+              enabledPages={enabledPagesForAdmin}
+              onTogglePage={handleRouteControlTogglePage}
+              onAddPage={superAdminHook.addPage}
+              onRemovePage={superAdminHook.removePage}
+            />
+          </Suspense>
         );
 
       case "Platform Permission Registry":
         return (
-          <PlatformPermissionRegistry registry={superAdminHook.registry} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <PlatformPermissionRegistry registry={superAdminHook.registry} />
+          </Suspense>
         );
 
       case "Audit Log":
-        return <AuditLog logs={superAdminHook.auditLogs} />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <AuditLog logs={superAdminHook.auditLogs} />
+          </Suspense>
+        );
       case "Ticket Management":
-        return <TicketsView userRole={userRole} />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <TicketsView userRole={userRole} />
+          </Suspense>
+        );
       case "Subscription Management":
-        return <SubscriptionView userRole={userRole} />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <SubscriptionView userRole={userRole} />
+          </Suspense>
+        );
       case "Area Master":
-        return <AreaMaster />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <AreaMaster />
+          </Suspense>
+        );
       case "Table Master":
-        return <TableMaster />;
+        return (
+          <Suspense fallback={<LoadingSpinner />}>
+            <TableMaster />
+          </Suspense>
+        );
 
       default:
         return (
-          <SuperAdminDashboard
-            admins={superAdminHook.admins}
-            auditLogs={superAdminHook.auditLogs}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <SuperAdminDashboard
+              admins={superAdminHook.admins}
+              auditLogs={superAdminHook.auditLogs}
+            />
+          </Suspense>
         );
     }
   }
@@ -246,12 +281,15 @@ export const AppRouter: React.FC<AppRouterProps> = ({
   const pageToShow = validStaffPages.includes(currentPage)
     ? currentPage
     : "Dashboard";
-  console.log(pageToShow, "pageToShow");
 
   // Existing Staff Flow
   switch (pageToShow) {
     case "Dashboard":
-      return <DashboardView userRole={userRole} />;
+      return (
+        <Suspense fallback={<LoadingSpinner />}>
+          <DashboardView userRole={userRole} />
+        </Suspense>
+      );
 
     case "Tables":
     case "Floor Plan":
@@ -277,7 +315,9 @@ export const AppRouter: React.FC<AppRouterProps> = ({
               </span>
             </div>
           </div>
-          <TableMap tables={tables} onTableClick={onTableClick} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <TableMap tables={tables} onTableClick={onTableClick} />
+          </Suspense>
         </div>
       );
 
@@ -292,10 +332,12 @@ export const AppRouter: React.FC<AppRouterProps> = ({
               {new Date().toLocaleTimeString()}
             </span>
           </div>
-          <KitchenDisplay
-            orders={orders}
-            onUpdateStatus={onUpdateOrderStatus}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <KitchenDisplay
+              orders={orders}
+              onUpdateStatus={onUpdateOrderStatus}
+            />
+          </Suspense>
         </div>
       );
 
@@ -303,7 +345,9 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     case "Menu Creator":
       return (
         <div className="animate-in fade-in duration-500">
-          <MenuManager />
+          <Suspense fallback={<LoadingSpinner />}>
+            <MenuManager />
+          </Suspense>
         </div>
       );
 
@@ -311,51 +355,63 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     case "Staff":
       return (
         <div className="animate-in fade-in duration-500">
-          <UsersView currentUserRole={userRole} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <UsersView currentUserRole={userRole} />
+          </Suspense>
         </div>
       );
 
     case "Inventory":
       return (
         <div className="animate-in fade-in duration-500">
-          <InventoryView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <InventoryView />
+          </Suspense>
         </div>
       );
 
     case "Reservations":
       return (
         <div className="animate-in fade-in duration-500">
-          <ReservationsView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <ReservationsView />
+          </Suspense>
         </div>
       );
 
     case "New Order":
       return (
         <div className="animate-in fade-in duration-500">
-          <NewOrderView
-            onPlaceOrder={onPlaceOrder}
-            initialTableId={selectedTableId}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <NewOrderView
+              onPlaceOrder={onPlaceOrder}
+              initialTableId={selectedTableId}
+            />
+          </Suspense>
         </div>
       );
 
     case "Order & Billing":
       return (
         <div className="animate-in fade-in duration-500">
-          <OrderBillingView
-            initialTableId={selectedTableId}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <OrderBillingView
+              initialTableId={selectedTableId}
+            />
+          </Suspense>
         </div>
       );
 
     case "Payments":
       return (
         <div className="animate-in fade-in duration-500">
-          <PaymentsView
-            orders={orders}
-            tables={tables}
-            onProcessPayment={onProcessPayment}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <PaymentsView
+              orders={orders}
+              tables={tables}
+              onProcessPayment={onProcessPayment}
+            />
+          </Suspense>
         </div>
       );
 
@@ -363,114 +419,144 @@ export const AppRouter: React.FC<AppRouterProps> = ({
     case "Payment History":
       return (
         <div className="animate-in fade-in duration-500">
-          <PaymentHistoryView
-            orders={orders}
-            tables={tables}
-            title={currentPage}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <PaymentHistoryView
+              orders={orders}
+              tables={tables}
+              title={currentPage}
+            />
+          </Suspense>
         </div>
       );
 
     case "Active Orders":
       return (
         <div className="animate-in fade-in duration-500">
-          <ActiveOrdersView orders={orders} tables={tables} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <ActiveOrdersView orders={orders} tables={tables} />
+          </Suspense>
         </div>
       );
 
     case "Settings":
       return (
         <div className="animate-in fade-in duration-500">
-          <SettingsView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <SettingsView />
+          </Suspense>
         </div>
       );
 
     case "Reports":
       return (
         <div className="animate-in fade-in duration-500">
-          <ReportsView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <ReportsView />
+          </Suspense>
         </div>
       );
 
     case "Feedback":
       return (
         <div className="animate-in fade-in duration-500">
-          <FeedbackView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <FeedbackView />
+          </Suspense>
         </div>
       );
 
     case "Tickets":
       return (
         <div className="animate-in fade-in duration-500">
-          <TicketsView userRole={userRole} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <TicketsView userRole={userRole} />
+          </Suspense>
         </div>
       );
 
     case "Subscription":
       return (
         <div className="animate-in fade-in duration-500">
-          <SubscriptionView userRole={userRole} />
+          <Suspense fallback={<LoadingSpinner />}>
+            <SubscriptionView userRole={userRole} />
+          </Suspense>
         </div>
       );
 
     case "Recipes":
       return (
         <div className="animate-in fade-in duration-500">
-          <RecipeView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <RecipeView />
+          </Suspense>
         </div>
       );
 
     case "Purchase":
       return (
         <div className="animate-in fade-in duration-500">
-          <PurchaseView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <PurchaseView />
+          </Suspense>
         </div>
       );
 
     case "Customers":
       return (
         <div className="animate-in fade-in duration-500">
-          <CustomersView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <CustomersView />
+          </Suspense>
         </div>
       );
 
     case "QR Codes":
       return (
         <div className="animate-in fade-in duration-500">
-          <QRCodeManagerView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <QRCodeManagerView />
+          </Suspense>
         </div>
       );
 
     case "Profile":
       return (
         <div className="animate-in fade-in duration-500">
-          <ProfileView />
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProfileView />
+          </Suspense>
         </div>
       );
 
     case "Waiter Dashboard":
       return (
         <div className="animate-in fade-in duration-500">
-          <WaiterView
-            tables={tables}
-            orders={orders}
-            onTableClick={onTableClick}
-            onUpdateOrderStatus={onUpdateOrderStatus}
-          />
+          <Suspense fallback={<LoadingSpinner />}>
+            <WaiterView
+              tables={tables}
+              orders={orders}
+              onTableClick={onTableClick}
+              onUpdateOrderStatus={onUpdateOrderStatus}
+            />
+          </Suspense>
         </div>
       );
 
     case "Area Master":
       return (
         <div className="animate-in fade-in duration-500">
-          <AreaMaster />
+          <Suspense fallback={<LoadingSpinner />}>
+            <AreaMaster />
+          </Suspense>
         </div>
       );
 
     case "Table Master":
       return (
         <div className="animate-in fade-in duration-500">
-          <TableMaster />
+          <Suspense fallback={<LoadingSpinner />}>
+            <TableMaster />
+          </Suspense>
         </div>
       );
 

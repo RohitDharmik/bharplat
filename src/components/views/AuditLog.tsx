@@ -6,7 +6,7 @@ interface AuditLogProps {
   logs: AuditLogEntry[];
 }
 
-export const AuditLog: React.FC<AuditLogProps> = ({ logs }) => {
+  const AuditLog: React.FC<AuditLogProps> = ({ logs }) => {
   const [filter, setFilter] = useState<string>('all');
 
   const filteredLogs = filter === 'all' ? logs : logs.filter(log => log.entityType === filter);
@@ -105,3 +105,4 @@ export const AuditLog: React.FC<AuditLogProps> = ({ logs }) => {
     </div>
   );
 };
+export default AuditLog;

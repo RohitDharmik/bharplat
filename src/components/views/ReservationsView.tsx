@@ -6,7 +6,7 @@ import { useApi } from '../../hooks/useApi';
 import { Modal, Form, Input, InputNumber, DatePicker, TimePicker, message } from 'antd';
 import dayjs from 'dayjs';
 
-export const ReservationsView: React.FC = () => {
+  const ReservationsView: React.FC = () => {
   const { reservations, addReservation, isLoading } = useAppStore();
   const { getReservations, createReservation: apiCreateReservation } = useApi();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -214,3 +214,4 @@ export const ReservationsView: React.FC = () => {
     </div>
   );
 };
+export default ReservationsView;

@@ -10,7 +10,7 @@ interface NewOrderViewProps {
   initialTableId?: string;
 }
 
-export const NewOrderView: React.FC<NewOrderViewProps> = ({ onPlaceOrder, initialTableId }) => {
+  const NewOrderView: React.FC<NewOrderViewProps> = ({ onPlaceOrder, initialTableId }) => {
   const { getMenu, createOrder: apiCreateOrder } = useApi();
   const [selectedTable, setSelectedTable] = useState<string>(initialTableId || '');
   const [cart, setCart] = useState<OrderItem[]>([]);
@@ -421,3 +421,4 @@ export const NewOrderView: React.FC<NewOrderViewProps> = ({ onPlaceOrder, initia
     </div>
   );
 };
+export default NewOrderView;

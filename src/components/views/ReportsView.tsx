@@ -2,7 +2,7 @@ import React from 'react';
 import { RevenueChart, OccupancyChart, StatCard } from '../ui/DashboardWidgets';
 import { Download, TrendingUp, Calendar } from 'lucide-react';
 
-export const ReportsView: React.FC = () => {
+ const ReportsView: React.FC = () => {
   return (
     <div className="space-y-6">
        <div className="flex justify-between items-center">
@@ -52,3 +52,4 @@ export const ReportsView: React.FC = () => {
     </div>
   );
 };
+export default ReportsView;
