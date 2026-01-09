@@ -16,7 +16,7 @@ import { SettingsView } from "./views/SettingsView";
 import { ReportsView } from "./views/ReportsView";
 import { FeedbackView } from "./views/FeedbackView";
 import { WaiterView } from "./views/WaiterView";
-import { GuestTableSelection, GuestMenu, GuestBill } from "./views/GuestPortal";
+// import { GuestTableSelection, GuestMenu, GuestBill } from "./views/GuestPortal";
 import { DashboardView } from "./views/DashboardView";
 import { TicketsView } from "./views/TicketsView";
 import { SubscriptionView } from "./views/SubscriptionView";
@@ -38,6 +38,9 @@ import { AreaMaster } from "./views/AreaMaster";
 import { TableMaster } from "./views/TableMaster";
 import { useAppStore } from "../store/useAppStore";
 import { useSuperAdmin } from "../hooks/useSuperAdmin";
+import { GuestTableSelection } from "./views/components/GuestTableSelection";
+import { GuestMenu } from "./views/components/GuestMenu";
+import { GuestBill } from "./views/components/GuestBill";
 
 interface AppRouterProps {
   currentPage: string;
